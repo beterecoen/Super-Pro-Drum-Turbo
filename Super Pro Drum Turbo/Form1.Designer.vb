@@ -29,6 +29,7 @@ Partial Class Form1
         Me.TrackTilesPanel = New System.Windows.Forms.Panel
         Me.PictureBox1 = New System.Windows.Forms.PictureBox
         Me.PictureBox2 = New System.Windows.Forms.PictureBox
+        Me.bpmField = New System.Windows.Forms.MaskedTextBox
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -92,11 +93,20 @@ Partial Class Form1
         Me.PictureBox2.TabIndex = 3
         Me.PictureBox2.TabStop = False
         '
+        'bpmField
+        '
+        Me.bpmField.Location = New System.Drawing.Point(122, 27)
+        Me.bpmField.Name = "bpmField"
+        Me.bpmField.Size = New System.Drawing.Size(27, 20)
+        Me.bpmField.TabIndex = 4
+        Me.bpmField.Text = "80"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(789, 525)
+        Me.Controls.Add(Me.bpmField)
         Me.Controls.Add(Me.PictureBox2)
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.TrackTilesPanel)
@@ -106,6 +116,7 @@ Partial Class Form1
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents Play As System.Windows.Forms.Button
@@ -114,5 +125,6 @@ Partial Class Form1
     Friend WithEvents TrackTilesPanel As System.Windows.Forms.Panel
     Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
     Friend WithEvents PictureBox2 As System.Windows.Forms.PictureBox
+    Friend WithEvents bpmField As System.Windows.Forms.MaskedTextBox
 
 End Class
