@@ -12,9 +12,8 @@ Public Class Form1
     Dim Playing As Boolean
     Dim CurrentNoteIndex As Integer
 
-    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Play.Click
-        'Voor test
-        BPM = 80
+    Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        TrackPlayThread.Start()
 
         TrackNotes(1, 0) = True
         TrackNotes(1, 4) = True
@@ -22,6 +21,36 @@ Public Class Form1
         TrackNotes(1, 12) = True
         TrackNotes(1, 16) = True
         TrackNotes(1, 20) = True
+
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
+        For row As Integer = 0 To TrackNotes.GetUpperBound(0)
+            'Dim trackContainer As New Panel
+            'trackContainer.Dock = DockStyle.Top
+            'trackContainer.Height = 20
+            'trackContainer.Width = 20 * TrackNotes.GetUpperBound(1)
+            'trackContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+            For column As Integer = 0 To TrackNotes.GetUpperBound(1)
+                Dim clsButton1 As New PictureBox
+                If TrackNotes(row, column) = True Then
+                    clsButton1.BackgroundImage = CType(resources.GetObject("PictureBox2.BackgroundImage"), System.Drawing.Image)
+                Else
+                    clsButton1.BackgroundImage = CType(resources.GetObject("PictureBox1.BackgroundImage"), System.Drawing.Image)
+                End If
+                'clsButton1.Dock = DockStyle.Left
+                clsButton1.Size = New System.Drawing.Size(20, 20)
+                clsButton1.Location = New System.Drawing.Point(20 * column, 20 * row)
+                TrackTilesPanel.Controls.Add(clsButton1)
+            Next
+            'TrackTilesPanel.Controls.Add(trackContainer)
+            'TrackTilesPanel.ScrollState()
+        Next
+    End Sub
+
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Play.Click
+        'Voor test
+        BPM = 80
+
+
         'Tot hier
 
         If Playing = True Then
@@ -55,7 +84,8 @@ Public Class Form1
         Loop
     End Sub
 
-    Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        TrackPlayThread.Start()
+    Private Sub TrackTilesPanel_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles TrackTilesPanel.Paint
+
     End Sub
+
 End Class
