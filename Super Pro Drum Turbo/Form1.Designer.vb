@@ -22,16 +22,11 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.Play = New System.Windows.Forms.Button
         Me.TabPage3 = New System.Windows.Forms.TabPage
         Me.TabPage4 = New System.Windows.Forms.TabPage
         Me.TrackTilesPanel = New System.Windows.Forms.Panel
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox
-        Me.PictureBox2 = New System.Windows.Forms.PictureBox
         Me.bpmField = New System.Windows.Forms.MaskedTextBox
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Play
@@ -71,28 +66,6 @@ Partial Class Form1
         Me.TrackTilesPanel.Size = New System.Drawing.Size(639, 367)
         Me.TrackTilesPanel.TabIndex = 1
         '
-        'PictureBox1
-        '
-        Me.PictureBox1.BackgroundImage = CType(resources.GetObject("PictureBox1.BackgroundImage"), System.Drawing.Image)
-        Me.PictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox1.Location = New System.Drawing.Point(665, 71)
-        Me.PictureBox1.Margin = New System.Windows.Forms.Padding(5)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(20, 20)
-        Me.PictureBox1.TabIndex = 2
-        Me.PictureBox1.TabStop = False
-        '
-        'PictureBox2
-        '
-        Me.PictureBox2.BackgroundImage = CType(resources.GetObject("PictureBox2.BackgroundImage"), System.Drawing.Image)
-        Me.PictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox2.Location = New System.Drawing.Point(704, 71)
-        Me.PictureBox2.Margin = New System.Windows.Forms.Padding(5)
-        Me.PictureBox2.Name = "PictureBox2"
-        Me.PictureBox2.Size = New System.Drawing.Size(20, 20)
-        Me.PictureBox2.TabIndex = 3
-        Me.PictureBox2.TabStop = False
-        '
         'bpmField
         '
         Me.bpmField.Location = New System.Drawing.Point(122, 27)
@@ -107,14 +80,10 @@ Partial Class Form1
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(789, 525)
         Me.Controls.Add(Me.bpmField)
-        Me.Controls.Add(Me.PictureBox2)
-        Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.TrackTilesPanel)
         Me.Controls.Add(Me.Play)
         Me.Name = "Form1"
         Me.Text = "Form1"
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -123,8 +92,6 @@ Partial Class Form1
     Friend WithEvents TabPage3 As System.Windows.Forms.TabPage
     Friend WithEvents TabPage4 As System.Windows.Forms.TabPage
     Friend WithEvents TrackTilesPanel As System.Windows.Forms.Panel
-    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
-    Friend WithEvents PictureBox2 As System.Windows.Forms.PictureBox
     Friend WithEvents bpmField As System.Windows.Forms.MaskedTextBox
 
 End Class

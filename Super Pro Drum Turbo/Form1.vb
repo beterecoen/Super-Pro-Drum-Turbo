@@ -1,10 +1,10 @@
-﻿Imports Microsoft.DirectX
-Imports Microsoft.DirectX.DirectDraw
-Imports Microsoft.DirectX.AudioVideoPlayback
+﻿'Imports Microsoft.DirectX
+'Imports Microsoft.DirectX.DirectDraw
+'Imports Microsoft.DirectX.AudioVideoPlayback
 Imports System.Threading
 
 Public Class Form1
-    Dim TrackSample(10) As Audio
+    'Dim TrackSample(10) As Audio
     Dim TrackNotes(10, 63) As Boolean
     Dim BPM As Integer
     Dim TrackSpacing As Double
@@ -19,22 +19,23 @@ Public Class Form1
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         TrackPlayThread.Start()
 
+        'Set some defaults
         TrackNotes(1, 0) = True
         TrackNotes(1, 4) = True
         TrackNotes(1, 8) = True
         TrackNotes(1, 12) = True
         TrackNotes(1, 16) = True
         TrackNotes(1, 20) = True
-
+        BPM = 80
 
         For row As Integer = 0 To TrackNotes.GetUpperBound(0)
             For column As Integer = 0 To TrackNotes.GetUpperBound(1)
                 Dim trackTile As New PictureBox
 
                 If TrackNotes(row, column) = True Then
-                    trackTile.BackgroundImage = CType(resources.GetObject("PictureBox2.BackgroundImage"), System.Drawing.Image)
+                    trackTile.BackgroundImage = My.Resources.button_selected
                 Else
-                    trackTile.BackgroundImage = CType(resources.GetObject("PictureBox1.BackgroundImage"), System.Drawing.Image)
+                    trackTile.BackgroundImage = My.Resources.button_unselected
                 End If
                 trackTile.Size = New System.Drawing.Size(20, 20)
                 trackTile.Location = New System.Drawing.Point(20 * column, 20 * row)
@@ -54,10 +55,10 @@ Public Class Form1
 
         If TrackNotes(row, column) = True Then
             TrackNotes(row, column) = False
-            trackTile.BackgroundImage = CType(resources.GetObject("PictureBox1.BackgroundImage"), System.Drawing.Image)
+            trackTile.BackgroundImage = My.Resources.button_unselected
         Else
             TrackNotes(row, column) = True
-            trackTile.BackgroundImage = CType(resources.GetObject("PictureBox2.BackgroundImage"), System.Drawing.Image)
+            trackTile.BackgroundImage = My.Resources.button_selected
         End If
 
     End Sub
@@ -65,18 +66,11 @@ Public Class Form1
 
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Play.Click
-        'Voor test
-        BPM = 80
-
-
-        'Tot hier
-
         If Playing = True Then
             Playing = False
             Play.Text = "Play"
         Else
             CurrentNoteIndex = 0
-            TrackSpacing = (1 / (BPM * 4 / 60)) * 1000
             Playing = True
             Play.Text = "Stop"
         End If
@@ -89,8 +83,9 @@ Public Class Form1
                 BPM = bpmField.Text
                 TrackSpacing = (1 / (BPM * 4 / 60)) * 1000
                 If TrackNotes(1, CurrentNoteIndex) = True Then
-                    Dim playSound As Audio
-                    playSound = New Audio("h:\Desktop\kick_06.wav", True)
+                    'Dim playSound As Audio
+                    'playSound = New Audio(My.Resources.kick_01, True)
+                    My.Computer.Audio.Play(My.Resources.kick_01, AudioPlayMode.Background)
                 End If
 
                 If CurrentNoteIndex < TrackNotes.GetUpperBound(1) Then
@@ -102,6 +97,11 @@ Public Class Form1
                 Thread.Sleep(TrackSpacing)
             End If
         Loop
+    End Sub
+
+    Private Sub Form1_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
+        TrackPlayThread.Abort()
+
     End Sub
 
 End Class
