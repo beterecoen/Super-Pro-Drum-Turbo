@@ -21,7 +21,7 @@ Public Class Form1
         TrackNotes(1, 12) = True
         TrackNotes(1, 16) = True
         TrackNotes(1, 20) = True
-        BPM = 80
+        BPM = 20
 
         'Put the samples in the TrackPlayStream makes multiple instances
         For row As Integer = 0 To TrackSample.GetUpperBound(0)
@@ -109,11 +109,18 @@ Public Class Form1
         previous.BorderStyle = BorderStyle.None
     End Sub
 
+    'Function used for calibartion of the audioplayer
+    Private Declare Function GetTickCount Lib "kernel32" () As Integer
+    Dim Elapsed As Integer
+
     'Thread which plays the audio
     Public Sub AudioPlay()
         Do While True
             If Playing Then
                 'Set some variables
+
+                Elapsed = GetTickCount
+
                 BPM = bpmField.Text
                 TrackSpacing = (1 / (BPM * 4 / 60)) * 1000
 
@@ -130,7 +137,7 @@ Public Class Form1
                             End If
                             If TrackPlayStream(row, playIndex).Duration = TrackPlayStream(row, playIndex).CurrentPosition Then
                                 TrackPlayStream(row, playIndex).Stop()
-                                TrackPlayStream(row, playIndex).Volume = -2000
+                                TrackPlayStream(row, playIndex).Volume = -1500
                                 TrackPlayStream(row, playIndex).Play()
                                 Exit For
                             End If
@@ -146,7 +153,7 @@ Public Class Form1
                 End If
 
                 'Used for the timing
-                Thread.Sleep(TrackSpacing)
+                Thread.Sleep(TrackSpacing - (GetTickCount - Elapsed))
             End If
         Loop
     End Sub
