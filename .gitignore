@@ -8,3 +8,7 @@ _ReSharper.*
 *.vspcc
 *.vscc 
 *.vssscc
+nbproject
+.DS_Store
+Thumbs.db
+Desktop.ini
