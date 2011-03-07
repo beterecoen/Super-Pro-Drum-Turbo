@@ -1,20 +1,14 @@
-﻿'Imports Microsoft.DirectX
-'Imports Microsoft.DirectX.DirectDraw
-'Imports Microsoft.DirectX.AudioVideoPlayback
+﻿Imports Microsoft.DirectX.AudioVideoPlayback
 Imports System.Threading
 
 Public Class Form1
-    'Dim TrackSample(10) As Audio
-    Dim TrackNotes(10, 63) As Boolean
+    Dim TrackSample(9) As String
+    Dim TrackNotes(9, 31) As Boolean
     Dim BPM As Integer
     Dim TrackSpacing As Double
     Dim TrackPlayThread As New Thread(AddressOf AudioPlay)
     Dim Playing As Boolean
     Dim CurrentNoteIndex As Integer
-
-    'gezeur voor plaatje
-    Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
-
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         TrackPlayThread.Start()
@@ -27,6 +21,10 @@ Public Class Form1
         TrackNotes(1, 16) = True
         TrackNotes(1, 20) = True
         BPM = 80
+
+        For row As Integer = 0 To TrackSample.GetUpperBound(0)
+            TrackSample(row) = Application.StartupPath & "\samples\kick_" & Format(row + 1, "00") & ".wav"
+        Next
 
         For row As Integer = 0 To TrackNotes.GetUpperBound(0)
             For column As Integer = 0 To TrackNotes.GetUpperBound(1)
@@ -77,16 +75,24 @@ Public Class Form1
 
     End Sub
 
+    Public Sub DisposeAudio(ByVal playSound As System.Object, ByVal e As System.EventArgs)
+        playSound.Dispose()
+    End Sub
+
     Public Sub AudioPlay()
         Do While True
             If Playing Then
                 BPM = bpmField.Text
                 TrackSpacing = (1 / (BPM * 4 / 60)) * 1000
-                If TrackNotes(1, CurrentNoteIndex) = True Then
-                    'Dim playSound As Audio
-                    'playSound = New Audio(My.Resources.kick_01, True)
-                    My.Computer.Audio.Play(My.Resources.kick_01, AudioPlayMode.Background)
-                End If
+
+                For row As Integer = 0 To TrackSample.GetUpperBound(0)
+                    If TrackNotes(row, CurrentNoteIndex) = True Then
+                        Dim playSound As Audio = New Audio(TrackSample(row), True)
+                        playSound.Volume = -2000
+                        playSound.Play()
+                        AddHandler playSound.Ending, AddressOf DisposeAudio
+                    End If
+                Next
 
                 If CurrentNoteIndex < TrackNotes.GetUpperBound(1) Then
                     CurrentNoteIndex += 1
@@ -101,7 +107,6 @@ Public Class Form1
 
     Private Sub Form1_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
         TrackPlayThread.Abort()
-
     End Sub
 
 End Class
