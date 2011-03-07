@@ -4,6 +4,7 @@ Imports System.Threading
 Public Class Form1
     Dim TrackSample(9) As String
     Dim TrackNotes(9, 31) As Boolean
+    Dim TrackPlayStream(9, 20) As Audio
     Dim BPM As Integer
     Dim TrackSpacing As Double
     Dim TrackPlayThread As New Thread(AddressOf AudioPlay)
@@ -22,16 +23,21 @@ Public Class Form1
         TrackNotes(1, 20) = True
         BPM = 80
 
+        'Put the samples in the TrackPlayStream makes multiple instances
         For row As Integer = 0 To TrackSample.GetUpperBound(0)
-            TrackSample(row) = Application.StartupPath & "\samples\kick_" & Format(row + 1, "00") & ".wav"
+            For playIndex As Integer = 0 To TrackPlayStream.GetUpperBound(1)
+                TrackPlayStream(row, playIndex) = New Audio(Application.StartupPath & "\samples\kick_" & Format(row + 1, "00") & ".wav", False)
+            Next
         Next
 
         drawTiles()
     End Sub
 
+    'Funcation triggerd when a Tile is clicked
     Sub trackTileClicked(ByVal trackTile As System.Object, ByVal e As System.EventArgs)
         Dim row, column As Integer
 
+        'Get the clicked row and column from the tag
         row = Split(trackTile.Tag, ",")(0)
         column = Split(trackTile.Tag, ",")(1)
 
@@ -45,6 +51,7 @@ Public Class Form1
 
     End Sub
 
+    'Function for drawing the tiles in the TrackTilesPanel
     Private Sub drawTiles()
         For column As Integer = 0 To TrackNotes.GetUpperBound(1)
             Dim playColumn As New Panel
@@ -71,6 +78,7 @@ Public Class Form1
         Next
     End Sub
 
+    'The click callback on the Play/Stop button
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Play.Click
         If Playing = True Then
             Playing = False
@@ -83,12 +91,10 @@ Public Class Form1
 
     End Sub
 
-    Public Sub DisposeAudio(ByVal playSound As System.Object, ByVal e As System.EventArgs)
-        playSound.Dispose()
-    End Sub
-
+    'Delegate Function needed to be able to call ToggelPlayingColumn from within the AudioPlay Thread
     Private Delegate Sub _TogglePlayingColumn(ByRef column As Integer)
 
+    'Function to visualise the current playing column
     Sub TogglePlayingColumn(ByRef column As Integer)
         Dim current, previous As Object
         current = TrackTilesPanel.GetChildAtPoint(New System.Drawing.Point(column * 20, 0))
@@ -101,38 +107,53 @@ Public Class Form1
         End If
         previous = TrackTilesPanel.GetChildAtPoint(New System.Drawing.Point(x * 20, 0))
         previous.BorderStyle = BorderStyle.None
-
     End Sub
 
+    'Thread which plays the audio
     Public Sub AudioPlay()
         Do While True
             If Playing Then
+                'Set some variables
                 BPM = bpmField.Text
                 TrackSpacing = (1 / (BPM * 4 / 60)) * 1000
 
+                'Call to visualise the current playing column
                 Me.Invoke(New _TogglePlayingColumn(AddressOf TogglePlayingColumn), CurrentNoteIndex)
 
+                'Go through all the tracks
                 For row As Integer = 0 To TrackSample.GetUpperBound(0)
                     If TrackNotes(row, CurrentNoteIndex) = True Then
-                        Dim playSound As Audio = New Audio(TrackSample(row), True)
-                        playSound.Volume = -2000
-                        playSound.Play()
-                        AddHandler playSound.Pausing, AddressOf DisposeAudio
+                        'Find a none playing track play stream
+                        For playIndex As Integer = 0 To TrackPlayStream.GetUpperBound(1)
+                            If TrackPlayStream(row, playIndex).Stopped Then
+                                TrackPlayStream(row, playIndex).CurrentPosition = TrackPlayStream(row, playIndex).Duration
+                            End If
+                            If TrackPlayStream(row, playIndex).Duration = TrackPlayStream(row, playIndex).CurrentPosition Then
+                                TrackPlayStream(row, playIndex).Stop()
+                                TrackPlayStream(row, playIndex).Volume = -2000
+                                TrackPlayStream(row, playIndex).Play()
+                                Exit For
+                            End If
+                        Next
                     End If
                 Next
 
+                'Make the CurrentNoteIndex loop
                 If CurrentNoteIndex < TrackNotes.GetUpperBound(1) Then
                     CurrentNoteIndex += 1
                 Else
                     CurrentNoteIndex = 0
                 End If
 
+                'Used for the timing
                 Thread.Sleep(TrackSpacing)
             End If
         Loop
     End Sub
 
+    'Runs when program is closed
     Private Sub Form1_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
+        'Kill the audio Thread
         TrackPlayThread.Abort()
     End Sub
 
