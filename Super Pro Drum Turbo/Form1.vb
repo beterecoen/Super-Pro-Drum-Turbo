@@ -122,7 +122,13 @@ Public Class Form1
                 Elapsed = GetTickCount
 
                 BPM = bpmField.Text
-                TrackSpacing = (1 / (BPM * 4 / 60)) * 1000
+
+                If BPM = 0 Then
+                    TrackSpacing = 1 / ((BPM + 5) * 4 / 60) * 1000
+                Else
+                    TrackSpacing = 1 / (BPM * 4 / 60) * 1000
+                End If
+
 
                 'Call to visualise the current playing column
                 Me.Invoke(New _TogglePlayingColumn(AddressOf TogglePlayingColumn), CurrentNoteIndex)
