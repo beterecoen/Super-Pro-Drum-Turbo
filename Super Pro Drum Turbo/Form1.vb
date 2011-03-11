@@ -12,6 +12,7 @@ Public Class Form1
     Dim CurrentNoteIndex As Integer
     Dim playIndex As Integer = 0
 
+
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         TrackPlayThread.Start()
 
@@ -116,20 +117,20 @@ Public Class Form1
 
     'Thread which plays the audio
     Public Sub AudioPlay()
+
         Do While True
             If Playing Then
                 'Set some variables
-
                 Elapsed = GetTickCount
 
                 BPM = bpmField.Text
+
 
                 If BPM = 0 Then
                     TrackSpacing = 1 / ((BPM + 5) * 4 / 60) * 1000
                 Else
                     TrackSpacing = 1 / (BPM * 4 / 60) * 1000
                 End If
-
 
                 'Call to visualise the current playing column
                 Me.Invoke(New _TogglePlayingColumn(AddressOf TogglePlayingColumn), CurrentNoteIndex)
@@ -172,6 +173,65 @@ Public Class Form1
     Private Sub Form1_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
         'Kill the audio Thread
         TrackPlayThread.Abort()
+    End Sub
+    Private Sub BPMup_down(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BPMup.MouseDown
+        'initialize timer
+        timerMenupalying = True
+        Dim timer As New System.Windows.Forms.Timer
+        timer.Enabled = True
+        timer.Interval = 350
+        AddHandler timer.Tick, AddressOf Timer_Tick_up
+    End Sub
+    Private Sub BPMup_up(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BPMup.MouseUp
+        'commence kill timer
+        timerMenupalying = False
+    End Sub
+    Dim timerMenupalying As Boolean = True
+
+    Private Sub BPMdown_release(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BPMdown.MouseUp
+        'commence kill timer
+        timerMenupalying = False
+    End Sub
+
+    Private Sub BPMdown_PressAndHold(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BPMdown.MouseDown
+        'initialize timer
+        timerMenupalying = True
+        Dim timer As New System.Windows.Forms.Timer
+        timer.Enabled = True
+        timer.Interval = 350
+        AddHandler timer.Tick, AddressOf Timer_Tick_down
+    End Sub
+    Private Sub Timer_Tick_up(ByVal Timer As System.Object, ByVal e As System.EventArgs)
+        'kills timer
+        If timerMenupalying = False Then
+            Timer.Dispose()
+        End If
+        'limits maximum bpm and increments bpm
+        If bpmField.Text < 250 Then
+            bpmField.Text += 1
+            Timer.Interval = 55
+        End If
+
+    End Sub
+    Private Sub Timer_Tick_down(ByVal Timer As System.Object, ByVal e As System.EventArgs)
+        'kills timer
+        If timerMenupalying = False Then
+            Timer.Dispose()
+        End If
+        'limits minimum bpm and increments bpm
+        If bpmField.Text > 0 Then
+            bpmField.Text += -1
+            Timer.Interval = 55
+        End If
+    End Sub
+    'limit bpm value
+    Private Sub bpmField_MaskInputRejected(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles bpmField.TextChanged
+        If bpmField.Text = "" Then
+        Else
+            If bpmField.Text > 250 Then
+                bpmField.Text = 250
+            End If
+        End If
     End Sub
 
 End Class
