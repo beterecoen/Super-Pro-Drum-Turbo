@@ -10,6 +10,7 @@ Public Class Form1
     Dim TrackPlayThread As New Thread(AddressOf AudioPlay)
     Dim Playing As Boolean
     Dim CurrentNoteIndex As Integer
+    Dim playIndex As Integer = 0
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         TrackPlayThread.Start()
@@ -137,19 +138,17 @@ Public Class Form1
                 For row As Integer = 0 To TrackSample.GetUpperBound(0)
                     If TrackNotes(row, CurrentNoteIndex) = True Then
                         'Find a none playing track play stream
-                        For playIndex As Integer = 0 To TrackPlayStream.GetUpperBound(1)
-                            If TrackPlayStream(row, playIndex).Stopped Then
-                                TrackPlayStream(row, playIndex).CurrentPosition = TrackPlayStream(row, playIndex).Duration
-                            End If
-                            If TrackPlayStream(row, playIndex).Duration = TrackPlayStream(row, playIndex).CurrentPosition Then
-                                TrackPlayStream(row, playIndex).Stop()
-                                TrackPlayStream(row, playIndex).Volume = -1500
-                                TrackPlayStream(row, playIndex).Play()
-                                Exit For
-                            End If
-                        Next
+                        TrackPlayStream(row, playIndex).Stop()
+                        TrackPlayStream(row, playIndex).Volume = -3000
+                        TrackPlayStream(row, playIndex).Play()
                     End If
                 Next
+
+                If playIndex < TrackPlayStream.GetUpperBound(1) Then
+                    playIndex += 1
+                Else
+                    playIndex = 0
+                End If
 
                 'Make the CurrentNoteIndex loop
                 If CurrentNoteIndex < TrackNotes.GetUpperBound(1) Then
@@ -159,7 +158,12 @@ Public Class Form1
                 End If
 
                 'Used for the timing
-                Thread.Sleep(TrackSpacing - (GetTickCount - Elapsed))
+                Elapsed = GetTickCount - Elapsed
+                If Elapsed < TrackSpacing Then
+                    Thread.Sleep(TrackSpacing - Elapsed)
+                Else
+                    'MsgBox("loopt achter")
+                End If
             End If
         Loop
     End Sub
