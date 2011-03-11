@@ -3,7 +3,7 @@ Imports System.Threading
 
 Public Class Form1
     Dim TrackSample(9) As String
-    Dim TrackNotes(9, 31) As Boolean
+    Dim TrackNotes(9, 63) As Boolean
     Dim TrackPlayStream(9, 20) As Audio
     Dim BPM As Integer
     Dim TrackSpacing As Double
@@ -98,17 +98,28 @@ Public Class Form1
 
     'Function to visualise the current playing column
     Sub TogglePlayingColumn(ByRef column As Integer)
-        Dim current, previous As Object
-        current = TrackTilesPanel.GetChildAtPoint(New System.Drawing.Point(column * 20, 0))
-        current.BorderStyle = BorderStyle.FixedSingle
-        Dim x As Integer
-        If column < 1 Then
-            x = TrackNotes.GetUpperBound(1)
-        Else
-            x = column - 1
+
+        'Make the container scroll if needed
+        If TrackTilesPanel.HorizontalScroll.Enabled Then
+            If (TrackTilesPanel.Width / 20 / 2) > column Then
+                TrackTilesPanel.HorizontalScroll.Value = 0
+            ElseIf column > (TrackNotes.GetUpperBound(1) - (TrackTilesPanel.Width / 20 / 2)) Then
+                TrackTilesPanel.HorizontalScroll.Value = TrackTilesPanel.HorizontalScroll.Maximum
+            Else
+                TrackTilesPanel.HorizontalScroll.Value = (column - ((TrackTilesPanel.Width / 20 / 2) - 1)) * 20
+            End If
         End If
-        previous = TrackTilesPanel.GetChildAtPoint(New System.Drawing.Point(x * 20, 0))
-        previous.BorderStyle = BorderStyle.None
+
+        'Toggeling the column borders
+        Dim index As Integer = 0
+        For Each ctrl In TrackTilesPanel.Controls
+            If index = column Then
+                ctrl.BorderStyle = BorderStyle.FixedSingle
+            Else
+                ctrl.BorderStyle = BorderStyle.None
+            End If
+            index += 1
+        Next
     End Sub
 
     'Function used for calibartion of the audioplayer
