@@ -97,6 +97,19 @@ Public Class Form1
 
     'Function to visualise the current playing column
     Sub TogglePlayingColumn(ByRef column As Integer)
+
+        'Make the container scroll if needed
+        If TrackTilesPanel.HorizontalScroll.Enabled Then
+            If (TrackTilesPanel.Width / 20 / 2) > column Then
+                TrackTilesPanel.HorizontalScroll.Value = 0
+            ElseIf column > (TrackNotes.GetUpperBound(1) - (TrackTilesPanel.Width / 20 / 2)) Then
+                TrackTilesPanel.HorizontalScroll.Value = TrackTilesPanel.HorizontalScroll.Maximum
+            Else
+                TrackTilesPanel.HorizontalScroll.Value = (column - ((TrackTilesPanel.Width / 20 / 2) - 1)) * 20
+            End If
+        End If
+
+        'Toggeling the column borders
         Dim index As Integer = 0
         For Each ctrl In TrackTilesPanel.Controls
             If index = column Then

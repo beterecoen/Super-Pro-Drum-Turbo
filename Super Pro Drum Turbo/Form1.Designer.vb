@@ -61,9 +61,9 @@ Partial Class Form1
         'TrackTilesPanel
         '
         Me.TrackTilesPanel.AutoScroll = True
-        Me.TrackTilesPanel.Location = New System.Drawing.Point(122, 146)
+        Me.TrackTilesPanel.Location = New System.Drawing.Point(177, 146)
         Me.TrackTilesPanel.Name = "TrackTilesPanel"
-        Me.TrackTilesPanel.Size = New System.Drawing.Size(655, 367)
+        Me.TrackTilesPanel.Size = New System.Drawing.Size(600, 367)
         Me.TrackTilesPanel.TabIndex = 1
         '
         'bpmField
