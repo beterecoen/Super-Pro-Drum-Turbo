@@ -1,3 +1,3 @@
 ﻿Public Class Note
-    Public checked As Boolean
+    Public Property checked As Boolean = False
 End Class

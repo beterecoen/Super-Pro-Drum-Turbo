@@ -123,11 +123,6 @@
     <Compile Include="Page1.xaml.vb">
       <DependentUpon>Page1.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Resource1.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resource1.resx</DependentUpon>
-    </Compile>
     <Compile Include="MainPage.xaml.vb">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -148,13 +143,6 @@
     <None Include="My Project\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resource1.resx">
-      <CustomToolNamespace>My.Resources</CustomToolNamespace>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource1.Designer.vb</LastGenOutput>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\button_selected.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -171,18 +159,20 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sampels\kick_02.wav" />
-    <None Include="Sampels\kick_03.wav" />
-    <None Include="Sampels\kick_04.wav" />
-    <None Include="Sampels\kick_05.wav" />
-    <None Include="Sampels\kick_06.wav" />
-    <None Include="Sampels\kick_07.wav" />
-    <None Include="Sampels\kick_08.wav" />
-    <None Include="Sampels\kick_09.wav" />
-    <None Include="Sampels\kick_10.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Sampels\kick_01.wav" />
+    <Content Include="DrumPro.xap" />
+    <Content Include="Samples\kick_01.wma" />
+    <Content Include="Samples\kick_02.wma" />
+    <Content Include="Samples\kick_03.wma" />
+    <Content Include="Samples\kick_04.wma" />
+    <Content Include="Samples\kick_05.wma" />
+    <Content Include="Samples\kick_06.wma" />
+    <Content Include="Samples\kick_07.wma" />
+    <Content Include="Samples\kick_08.wma" />
+    <Content Include="Samples\kick_09.wma" />
+    <Content Include="Samples\kick_10.wma" />
+    <Resource Include="kick_02.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

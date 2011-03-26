@@ -17,6 +17,7 @@
                 <CheckBox Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top"></CheckBox>
             </StackPanel>
         </ItemsControl>
+        <MediaElement Height="120" HorizontalAlignment="Left" Margin="260,177,0,0" Name="MediaElement1" VerticalAlignment="Top" Width="160" Source="{Binding}" />
     </Grid>
 </navigation:Page>
 

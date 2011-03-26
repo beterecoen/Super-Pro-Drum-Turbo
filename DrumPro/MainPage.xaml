@@ -40,13 +40,19 @@
                                         </ListBox.ItemsPanel>
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                    <CheckBox Width="20" Height="20"></CheckBox>
+                                                <CheckBox IsChecked="{Binding checked, Mode=TwoWay}" Width="20" Height="20"></CheckBox>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
                                     </ListBox>
                                 </DataTemplate>
                              </ListBox.ItemTemplate>
                         </ListBox>
+                        
+                        <ItemsControl ItemsSource="{Binding samples}">
+                            <DataTemplate>
+                                <MediaElement Source="{Binding uri}" Grid.Column="0" AutoPlay="True"></MediaElement>
+                            </DataTemplate>
+                        </ItemsControl>                            
 
                     </Grid>
                 </DataTemplate>

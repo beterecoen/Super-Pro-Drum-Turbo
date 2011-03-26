@@ -5,39 +5,31 @@ Imports System.Collections.ObjectModel
 Partial Public Class MainPage
     Inherits UserControl
 
-    'Setup
+    'Related to the data grid
     Dim NotesPerBeat As Integer = 5
     Dim NumberOfBeats As Integer = 10
     Dim NumberOfTacks As Integer = 10
-    Dim BPM As Integer = 80
-    Dim TrackSpacing As Double
-    Dim TrackPlayThread As New Thread(AddressOf AudioPlay)
-    Dim Playing As Boolean
-    Dim CurrentNoteIndex As Integer
-    Dim playIndex As Integer = 0
+    Dim SamplesPerTrack As Integer = 4
 
+    'Playback related
+    Dim BPM As Integer = 200
+    Dim TrackSpacing As Double
+    Dim Playing As Boolean
+
+    'Indexes for playback
+    Dim CurrentNoteIndex As Integer = 1
+    Dim CurrentBeatIndex As Integer = 1
+    Dim CurrentPlayIndex As Integer = 1
+
+    'Create Tracks Collection
     Dim TrackCollection As New ObservableCollection(Of Track)
+
+    Dim TrackPlayThread As New Thread(AddressOf AudioPlay)
 
     Public Sub New()
         InitializeComponent()
 
         TrackPlayThread.Start()
-
-        'Set some defaults
-        'TrackNotes(1, 0) = True
-        'TrackNotes(1, 4) = True
-        'TrackNotes(1, 8) = True
-        'TrackNotes(1, 12) = True
-        'TrackNotes(1, 16) = True
-        'TrackNotes(1, 20) = True
-        BPM = 20
-
-        'Put the samples in the TrackPlayStream makes multiple instances
-        'For row As Integer = 0 To TrackSample.GetUpperBound(0)
-        '    'For playIndex As Integer = 0 To TrackPlayStream.GetUpperBound(1)
-        '    '    TrackPlayStream(row, playIndex) = New Audio(Application.StartupPath & "\samples\kick_" & Format(row + 1, "00") & ".wav", False)
-        '    'Next
-        'Next
 
         InitializeTracks()
     End Sub
@@ -46,9 +38,19 @@ Partial Public Class MainPage
     Sub InitializeTracks()
         For trackIndex As Integer = 0 To NumberOfTacks - 1
             Dim track As New Track
-            track.volume = 5
+            track.volume = 0.3
             track.name = "kick_" & Format(trackIndex + 1, "00")
-            'track.smapleFile = New Uri("\samples\kick_" & Format(trackIndex + 1, "00") & ".wav")
+
+            Dim sampleUri As String = "Samples/kick_" & Format(trackIndex + 1, "00") & ".wma"
+
+            For sampleIndex As Integer = 0 To SamplesPerTrack - 1
+                Dim sample As New MediaElement
+                Dim st As System.Windows.Resources.StreamResourceInfo = Application.GetResourceStream(New Uri(sampleUri, UriKind.Relative))
+                sample.SetSource(st.Stream)
+                sample.AutoPlay = False
+                track.samples.Add(sample)
+            Next
+
             For beatIndex As Integer = 0 To NumberOfBeats - 1
                 Dim beat As New Beat
                 For noteIndex As Integer = 0 To NotesPerBeat - 1
@@ -64,62 +66,17 @@ Partial Public Class MainPage
         TrackTilesPanel.DataContext = TrackCollection
     End Sub
 
-    'Funcation triggerd when a Tile is clicked
-    Sub trackTileClicked(ByVal trackTile As System.Object, ByVal e As System.EventArgs)
-        Dim row, column As Integer
-
-        'Get the clicked row and column from the tag
-        row = Split(trackTile.Tag, ",")(0)
-        column = Split(trackTile.Tag, ",")(1)
-
-        'If TrackNotes(row, column) = True Then
-        '    TrackNotes(row, column) = False
-        '    trackTile.BackgroundImage = New Uri("Resources/button_selected.png")
-        'Else
-        '    TrackNotes(row, column) = True
-        '    trackTile.BackgroundImage = New Uri("Resources/button_unselected.png")
-        'End If
-
-    End Sub
-
-    'Function for drawing the tiles in the TrackTilesPanel
-    'Private Sub drawTiles()
-    '    For column As Integer = 0 To TrackNotes.GetUpperBound(1)
-    '        Dim playColumn As New DockPanel
-    '        playColumn. = New System.Drawing.Point(20 * column, 0)
-    '        playColumn.Size = New System.Drawing.Size(20, 20 * TrackNotes.GetUpperBound(0))
-
-    '        For row As Integer = 0 To TrackNotes.GetUpperBound(0)
-    '            Dim trackTile As New PictureBox
-
-    '            If TrackNotes(row, column) = True Then
-    '                trackTile.BackgroundImage = My.Resources.button_selected
-    '            Else
-    '                trackTile.BackgroundImage = My.Resources.button_unselected
-    '            End If
-    '            trackTile.Size = New System.Drawing.Size(20, 20)
-    '            trackTile.Location = New System.Drawing.Point(0, 20 * row)
-    '            playColumn.Controls.Add(trackTile)
-    '            trackTile.Tag = row & "," & column
-
-    '            AddHandler trackTile.Click, AddressOf trackTileClicked
-    '        Next
-    '        Location()
-    '        TrackTilesPanel.Controls.Add(playColumn)
-    '    Next
-    'End Sub
-
     'The click callback on the Play/Stop button
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Play.Click
         If Playing = True Then
             Playing = False
             Play.Content = "Play"
         Else
-            CurrentNoteIndex = 0
+            CurrentNoteIndex = 1
+            CurrentBeatIndex = 1
             Playing = True
             Play.Content = "Stop"
         End If
-
     End Sub
 
     'Delegate Function needed to be able to call ToggelPlayingColumn from within the AudioPlay Thread
@@ -155,16 +112,24 @@ Partial Public Class MainPage
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
     Dim Elapsed As Integer
 
+    Public Delegate Sub _PlaySample(ByRef trackIndex As Integer)
+    Sub PlaySample(ByRef trackIndex As Integer)
+        Dim track As Track = TrackCollection.Item(trackIndex)
+        Dim sample As MediaElement = track.samples.Item(CurrentPlayIndex)
+        sample.Stop()
+        sample.Volume = track.volume
+        sample.Play()
+    End Sub
+
+
     'Thread which plays the audio
     Public Sub AudioPlay()
-
         Do While True
             If Playing Then
                 'Set some variables
                 'Elapsed = GetTickCount
 
                 'BPM = bmpField.Text
-
 
                 If BPM = 0 Then
                     TrackSpacing = 1 / ((BPM + 5) * 4 / 60) * 1000
@@ -175,28 +140,33 @@ Partial Public Class MainPage
                 'Call to visualise the current playing column
                 'Me.Invoke(New _TogglePlayingColumn(AddressOf TogglePlayingColumn), CurrentNoteIndex)
 
+
+
                 'Go through all the tracks
-                'For row As Integer = 0 To TrackSample.GetUpperBound(0)
-                '    If TrackNotes(row, CurrentNoteIndex) = True Then
-                '        'Find a none playing track play stream
-                '        'TrackPlayStream(row, playIndex).Stop()
-                '        'TrackPlayStream(row, playIndex).Volume = 0
-                '        'TrackPlayStream(row, playIndex).Play()
-                '    End If
-                'Next
+                For trackIndex As Integer = 0 To NumberOfTacks - 1
+                    If TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).checked Then
+                        Dispatcher.BeginInvoke(New _PlaySample(AddressOf PlaySample), trackIndex)
+                    End If
+                Next
 
-                'If playIndex < TrackPlayStream.GetUpperBound(1) Then
-                '    playIndex += 1
-                'Else
-                '    playIndex = 0
-                'End If
+                'Loop trough MediaElements
+                If CurrentPlayIndex < SamplesPerTrack Then
+                    CurrentPlayIndex += 1
+                Else
+                    CurrentPlayIndex = 1
+                End If
 
-                'Make the CurrentNoteIndex loop
-                'If CurrentNoteIndex < TrackNotes.GetUpperBound(1) Then
-                '    CurrentNoteIndex += 1
-                'Else
-                '    CurrentNoteIndex = 0
-                'End If
+                'Loop trough Notes and Beats
+                If CurrentNoteIndex < NotesPerBeat Then
+                    CurrentNoteIndex += 1
+                Else
+                    CurrentNoteIndex = 1
+                    If CurrentBeatIndex < NumberOfBeats Then
+                        CurrentBeatIndex += 1
+                    Else
+                        CurrentBeatIndex = 1
+                    End If
+                End If
 
                 'Used for the timing
                 'Elapsed = GetTickCount - Elapsed
@@ -205,6 +175,7 @@ Partial Public Class MainPage
                 'Else
                 '    'MsgBox("loopt achter")
                 'End If
+                Thread.Sleep(TrackSpacing)
             End If
         Loop
     End Sub
