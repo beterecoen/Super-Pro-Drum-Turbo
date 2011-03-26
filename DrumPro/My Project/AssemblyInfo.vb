@@ -7,18 +7,17 @@ Imports System.Runtime.InteropServices
 ' associated with an assembly.
 
 ' Review the values of the assembly attributes
-
-<Assembly: AssemblyTitle("WindowsApplication1")> 
+<Assembly: AssemblyTitle("DrumPro")> 
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("TU Delft")> 
-<Assembly: AssemblyProduct("WindowsApplication1")> 
+<Assembly: AssemblyProduct("DrumPro")> 
 <Assembly: AssemblyCopyright("Copyright © TU Delft 2011")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("369ac874-342f-4b8f-85aa-2d50a8dcc045")> 
+<Assembly: Guid("62afb1e1-59d4-45bc-908e-afaec41790fb")> 
 
 ' Version information for an assembly consists of the following four values:
 '

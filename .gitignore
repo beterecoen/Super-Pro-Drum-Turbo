@@ -1,5 +1,7 @@
-Super Pro Drum Turbo/[Bb]in/
-Super Pro Drum Turbo/[Oo]bj/
+DrumPro/[Bb]in/
+DrumPro/[Oo]bj/
+DrumPro.Web/[Bb]in/
+DrumPro.Web/[Oo]bj/
 *.user
 *.suo
 _ReSharper.*

@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Web Developer Express 2010
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DrumPro", "DrumPro\DrumPro.vbproj", "{93932F49-4BDB-41E8-9ED2-22FFB9412839}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DrumPro.Web", "DrumPro.Web\DrumPro.Web.vbproj", "{D7AA309F-CF08-4357-8AFA-C0721993E877}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{93932F49-4BDB-41E8-9ED2-22FFB9412839}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93932F49-4BDB-41E8-9ED2-22FFB9412839}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93932F49-4BDB-41E8-9ED2-22FFB9412839}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93932F49-4BDB-41E8-9ED2-22FFB9412839}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7AA309F-CF08-4357-8AFA-C0721993E877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7AA309F-CF08-4357-8AFA-C0721993E877}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7AA309F-CF08-4357-8AFA-C0721993E877}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7AA309F-CF08-4357-8AFA-C0721993E877}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
