@@ -26,7 +26,7 @@
     <TestPageFileName>DrumProTestPage.html</TestPageFileName>
     <CreateTestPage>true</CreateTestPage>
     <ValidateXaml>true</ValidateXaml>
-    <EnableOutOfBrowser>false</EnableOutOfBrowser>
+    <EnableOutOfBrowser>true</EnableOutOfBrowser>
     <OutOfBrowserSettingsFile>My Project\OutOfBrowserSettings.xml</OutOfBrowserSettingsFile>
     <UsePlatformExtensions>false</UsePlatformExtensions>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
@@ -160,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DrumPro.xap" />
+    <None Include="My Project\OutOfBrowserSettings.xml" />
     <Content Include="Samples\kick_01.wma" />
     <Content Include="Samples\kick_02.wma" />
     <Content Include="Samples\kick_03.wma" />
@@ -170,9 +171,6 @@
     <Content Include="Samples\kick_08.wma" />
     <Content Include="Samples\kick_09.wma" />
     <Content Include="Samples\kick_10.wma" />
-    <Resource Include="kick_02.wav">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
