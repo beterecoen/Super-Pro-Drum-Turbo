@@ -67,15 +67,18 @@ Partial Public Class MainPage
     End Sub
 
     'The click callback on the Play/Stop button
-    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Play.Click
-        If Playing = True Then
-            Playing = False
-            Play.Content = "Play"
-        Else
+    Private Sub Play_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Play.Click
+        If Playing = False Then
             CurrentNoteIndex = 1
             CurrentBeatIndex = 1
             Playing = True
             Play.Content = "Stop"
+        End If
+    End Sub
+
+    Private Sub Stop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles [Stop].Click
+        If Playing = True Then
+            Playing = False
         End If
     End Sub
 

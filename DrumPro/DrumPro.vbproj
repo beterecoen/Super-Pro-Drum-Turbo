@@ -77,6 +77,8 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Expression.Effects, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="mscorlib" />
     <Reference Include="System.ComponentModel.DataAnnotations, Version=2.0.5.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217, processorArchitecture=MSIL" />
     <Reference Include="System.Runtime.Serialization" />
@@ -95,6 +97,7 @@
     <Reference Include="System.Windows.Controls.Toolkit, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System.Windows.Controls.Toolkit.Internals, Version=4.0.5.0, Culture=neutral, PublicKeyToken=2c5c654d367bf4a7" />
     <Reference Include="System.Windows.Data, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
@@ -120,9 +123,6 @@
     </Compile>
     <Compile Include="Beat.vb" />
     <Compile Include="Note.vb" />
-    <Compile Include="Page1.xaml.vb">
-      <DependentUpon>Page1.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MainPage.xaml.vb">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -153,13 +153,28 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Page1.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
+    <Resource Include="GUI\background.png" />
+    <Resource Include="GUI\backgroundv2.png" />
+    <Resource Include="GUI\bpm_down_uns.png" />
+    <Resource Include="GUI\bpm_up_sel.png" />
+    <Resource Include="GUI\bpm_up_uns.png" />
     <Content Include="DrumPro.xap" />
+    <Resource Include="GUI\drums_sel.png" />
+    <Resource Include="GUI\drums_uns.png" />
+    <Resource Include="GUI\drum_background.png" />
+    <Resource Include="GUI\low_sel.png" />
+    <Resource Include="GUI\low_uns.png" />
+    <Resource Include="GUI\play_sel.png" />
+    <Resource Include="GUI\play_uns.png" />
+    <Resource Include="GUI\stop_sel.png" />
+    <Resource Include="GUI\stop_uns.png" />
+    <Resource Include="GUI\tracks_sel.png" />
+    <Resource Include="GUI\tracks_uns.png" />
+    <Resource Include="GUI\track_options.png" />
+    <Resource Include="GUI\win_sel.png" />
+    <Resource Include="GUI\win_uns.png" />
+    <Resource Include="GUI\x_sel.png" />
+    <Resource Include="GUI\x_uns.png" />
     <None Include="My Project\OutOfBrowserSettings.xml" />
     <Content Include="Samples\kick_01.wma" />
     <Content Include="Samples\kick_02.wma" />
@@ -171,6 +186,9 @@
     <Content Include="Samples\kick_08.wma" />
     <Content Include="Samples\kick_09.wma" />
     <Content Include="Samples\kick_10.wma" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
