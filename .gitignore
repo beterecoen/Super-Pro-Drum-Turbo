@@ -6,7 +6,6 @@ DrumPro.Web/[Oo]bj/
 *.suo
 _ReSharper.*
 *.sln.cache
-*.xap
 *.vspcc
 *.vscc 
 *.vssscc
