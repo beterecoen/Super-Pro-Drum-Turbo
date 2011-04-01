@@ -1,7 +1,10 @@
 <OutOfBrowserSettings ShortName="DrumPro" EnableGPUAcceleration="True" ShowInstallMenuItem="True">
   <OutOfBrowserSettings.Blurb>DrumPro Application on your desktop; at home, at work or on the go.</OutOfBrowserSettings.Blurb>
   <OutOfBrowserSettings.WindowSettings>
-    <WindowSettings Title="Super Drum Pro Turbo" Height="500" Width="500" />
+    <WindowSettings Title="Super Drum Pro Turbo" Height="640" Width="1008" WindowStyle="BorderlessRoundCornersWindow" />
   </OutOfBrowserSettings.WindowSettings>
+  <OutOfBrowserSettings.SecuritySettings>
+    <SecuritySettings ElevatedPermissions="Required" />
+  </OutOfBrowserSettings.SecuritySettings>
   <OutOfBrowserSettings.Icons />
 </OutOfBrowserSettings>

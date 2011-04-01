@@ -248,4 +248,9 @@ Partial Public Class MainPage
     '    End If
     'End Sub
 
+    Private Sub Close_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles Close.Click
+        If Application.Current.IsRunningOutOfBrowser AndAlso Application.Current.HasElevatedPermissions Then
+            Application.Current.MainWindow.Close()
+        End If
+    End Sub
 End Class

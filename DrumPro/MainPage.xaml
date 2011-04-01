@@ -3119,7 +3119,7 @@
         <ComboBox HorizontalAlignment="Right" Height="20" Margin="0,189,4,0" Grid.Row="1" VerticalAlignment="Top" Width="228" Style="{StaticResource drumprostyle}"/>
         <ComboBox HorizontalAlignment="Right" Height="21" Margin="0,229,6,0" Grid.Row="1" VerticalAlignment="Top" Width="226" Style="{StaticResource drumprostyle}"/>
         <Slider HorizontalAlignment="Right" Height="16" Margin="0,210,8,0" Grid.Row="1" VerticalAlignment="Top" Width="178" Style="{StaticResource sliderdrum2}"/>
-        <Button x:Name="drums_Copy" Content="Button" HorizontalAlignment="Right" Margin="0,21,12,0" Grid.Row="1" Style="{StaticResource ButtonStyle4}" Width="28" Height="25" VerticalAlignment="Top"/>
+        <Button x:Name="Close" Content="Button" HorizontalAlignment="Right" Margin="0,21,12,0" Grid.Row="1" Style="{StaticResource ButtonStyle4}" Width="28" Height="25" VerticalAlignment="Top"/>
         <Button x:Name="drums_Copy1" Content="Button" HorizontalAlignment="Right" Margin="0,21,40,0" Grid.Row="1" Style="{StaticResource ButtonStyle5}" Width="28" Height="25" VerticalAlignment="Top"/>
         <Button x:Name="drums_Copy2" Content="Button" HorizontalAlignment="Right" Margin="0,21,68,0" Grid.Row="1" Style="{StaticResource ButtonStyle6}" Width="28" Height="25" VerticalAlignment="Top"/>
         <Button x:Name="Stop" Content="Button" HorizontalAlignment="Left" Height="46" Margin="69,123,0,0" Grid.Row="1" Style="{StaticResource ButtonStyle7}" VerticalAlignment="Top" Width="67"/>
