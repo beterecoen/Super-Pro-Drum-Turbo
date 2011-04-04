@@ -2,6 +2,7 @@ DrumPro/[Bb]in/
 DrumPro/[Oo]bj/
 DrumPro.Web/[Bb]in/
 DrumPro.Web/[Oo]bj/
+*.xap
 *.suo
 _ReSharper.*
 *.sln.cache
