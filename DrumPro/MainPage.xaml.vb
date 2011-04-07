@@ -9,7 +9,7 @@ Partial Public Class MainPage
     Dim NotesPerBeat As Integer = 5
     Dim NumberOfBeats As Integer = 10
     Dim NumberOfTacks As Integer = 10
-    Dim SamplesPerTrack As Integer = 4
+    Dim PlaySamplesPerTrack As Integer = 4
 
     'Playback related
     Dim BPM As Integer = 200
@@ -23,14 +23,14 @@ Partial Public Class MainPage
 
     'Create Tracks Collection
     Dim TrackCollection As New ObservableCollection(Of Track)
+    Dim SampleCollection As New Microsoft.VisualBasic.Collection()
 
     Dim TrackPlayThread As New Thread(AddressOf AudioPlay)
 
     Public Sub New()
         InitializeComponent()
-
         TrackPlayThread.Start()
-
+        InitializeSamples()
         InitializeTracks()
     End Sub
 
@@ -40,16 +40,9 @@ Partial Public Class MainPage
             Dim track As New Track
             track.volume = 0.3
             track.name = "kick_" & Format(trackIndex + 1, "00")
-
-            Dim sampleUri As String = "Samples/kick_" & Format(trackIndex + 1, "00") & ".wma"
-
-            For sampleIndex As Integer = 0 To SamplesPerTrack - 1
-                Dim sample As New MediaElement
-                Dim st As System.Windows.Resources.StreamResourceInfo = Application.GetResourceStream(New Uri(sampleUri, UriKind.Relative))
-                sample.SetSource(st.Stream)
-                sample.AutoPlay = False
-                track.samples.Add(sample)
-            Next
+            track.numberOfPlaySamples = PlaySamplesPerTrack
+            track.sampleOptions = SampleCollection
+            track.sampleIndex = trackIndex + 1
 
             For beatIndex As Integer = 0 To NumberOfBeats - 1
                 Dim beat As New Beat
@@ -64,6 +57,20 @@ Partial Public Class MainPage
         Next
 
         TrackTilesPanel.DataContext = TrackCollection
+        TrackControlsPanel.DataContext = TrackCollection
+    End Sub
+
+    Sub InitializeSamples()
+        SampleCollection.Add(New Sample(New Uri("Samples/kick_01.wma", UriKind.Relative), "Kick", 1))
+        SampleCollection.Add(New Sample(New Uri("Samples/kick_02.wma", UriKind.Relative), "Slip", 2))
+        SampleCollection.Add(New Sample(New Uri("Samples/kick_03.wma", UriKind.Relative), "Plip", 3))
+        SampleCollection.Add(New Sample(New Uri("Samples/kick_04.wma", UriKind.Relative), "Hip", 4))
+        SampleCollection.Add(New Sample(New Uri("Samples/kick_05.wma", UriKind.Relative), "Knip", 5))
+        SampleCollection.Add(New Sample(New Uri("Samples/kick_06.wma", UriKind.Relative), "Lip", 6))
+        SampleCollection.Add(New Sample(New Uri("Samples/kick_07.wma", UriKind.Relative), "Pip", 7))
+        SampleCollection.Add(New Sample(New Uri("Samples/kick_08.wma", UriKind.Relative), "Sip", 8))
+        SampleCollection.Add(New Sample(New Uri("Samples/kick_09.wma", UriKind.Relative), "Rip", 9))
+        SampleCollection.Add(New Sample(New Uri("Samples/kick_10.wma", UriKind.Relative), "Rap", 10))
     End Sub
 
     'The click callback on the Play/Stop button
@@ -118,7 +125,7 @@ Partial Public Class MainPage
     Public Delegate Sub _PlaySample(ByRef trackIndex As Integer)
     Sub PlaySample(ByRef trackIndex As Integer)
         Dim track As Track = TrackCollection.Item(trackIndex)
-        Dim sample As MediaElement = track.samples.Item(CurrentPlayIndex)
+        Dim sample As MediaElement = track.playSamples.Item(CurrentPlayIndex)
         sample.Stop()
         sample.Volume = track.volume
         sample.Play()
@@ -153,7 +160,7 @@ Partial Public Class MainPage
                 Next
 
                 'Loop trough MediaElements
-                If CurrentPlayIndex < SamplesPerTrack Then
+                If CurrentPlayIndex < PlaySamplesPerTrack Then
                     CurrentPlayIndex += 1
                 Else
                     CurrentPlayIndex = 1
@@ -253,4 +260,5 @@ Partial Public Class MainPage
             Application.Current.MainWindow.Close()
         End If
     End Sub
+
 End Class

@@ -130,6 +130,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="Sample.vb" />
     <Compile Include="Track.vb" />
   </ItemGroup>
   <ItemGroup>
