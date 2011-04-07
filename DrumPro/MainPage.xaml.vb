@@ -6,13 +6,13 @@ Partial Public Class MainPage
     Inherits UserControl
 
     'Related to the data grid
-    Dim NotesPerBeat As Integer = 5
-    Dim NumberOfBeats As Integer = 10
+    Dim NotesPerBeat As Integer = 4
+    Dim NumberOfBeats As Integer = 4
     Dim NumberOfTacks As Integer = 10
-    Dim PlaySamplesPerTrack As Integer = 4
+    Dim PlaySamplesPerTrack As Integer = 6
 
     'Playback related
-    Dim BPM As Integer = 200
+    Dim BPM As Integer = 80
     Dim TrackSpacing As Double
     Dim Playing As Boolean
 
@@ -120,15 +120,18 @@ Partial Public Class MainPage
 
     'Function used for calibartion of the audioplayer
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
-    Dim Elapsed As Integer
+    Dim Elapsed As Double
 
     Public Delegate Sub _PlaySample(ByRef trackIndex As Integer)
     Sub PlaySample(ByRef trackIndex As Integer)
         Dim track As Track = TrackCollection.Item(trackIndex)
-        Dim sample As MediaElement = track.playSamples.Item(CurrentPlayIndex)
-        sample.Stop()
-        sample.Volume = track.volume
-        sample.Play()
+        If track.playSamples.Count >= CurrentPlayIndex Then
+            Dim sample As MediaElement = track.playSamples.Item(CurrentPlayIndex)
+            sample.Stop()
+            sample.Volume = 0.2
+            'track.volume
+            sample.Play()
+        End If
     End Sub
 
 
@@ -137,7 +140,7 @@ Partial Public Class MainPage
         Do While True
             If Playing Then
                 'Set some variables
-                'Elapsed = GetTickCount
+                Elapsed = DateTime.Now.Ticks
 
                 'BPM = bmpField.Text
 
@@ -149,7 +152,6 @@ Partial Public Class MainPage
 
                 'Call to visualise the current playing column
                 'Me.Invoke(New _TogglePlayingColumn(AddressOf TogglePlayingColumn), CurrentNoteIndex)
-
 
 
                 'Go through all the tracks
@@ -179,12 +181,12 @@ Partial Public Class MainPage
                 End If
 
                 'Used for the timing
-                'Elapsed = GetTickCount - Elapsed
-                'If Elapsed < TrackSpacing Then
-                '    Thread.Sleep(TrackSpacing - Elapsed)
-                'Else
-                '    'MsgBox("loopt achter")
-                'End If
+                Elapsed = DateTime.Now.Ticks - Elapsed
+                If Elapsed < TrackSpacing Then
+                    Thread.Sleep(TrackSpacing - Elapsed)
+                Else
+                    'MsgBox("loopt achter")
+                End If
                 Thread.Sleep(TrackSpacing)
             End If
         Loop
