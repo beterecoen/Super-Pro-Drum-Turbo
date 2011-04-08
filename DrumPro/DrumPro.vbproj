@@ -32,6 +32,8 @@
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
     <LinkedServerProject>
     </LinkedServerProject>
+    <Utf8Output>true</Utf8Output>
+    <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
   </PropertyGroup>
   <!-- This property group is only here to support building this project using the 
        MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
@@ -143,6 +145,8 @@
     <None Include="My Project\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="note_off_uns.png" />
+    <Resource Include="note_on_uns.png" />
     <Resource Include="Resources\button_selected.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -176,6 +180,8 @@
     <Resource Include="GUI\x_sel.png" />
     <Resource Include="GUI\x_uns.png" />
     <None Include="My Project\OutOfBrowserSettings.xml" />
+    <Resource Include="GUI\note_off_uns.png" />
+    <Resource Include="GUI\note_on_uns.png" />
     <Content Include="Samples\kick_01.wma" />
     <Content Include="Samples\kick_02.wma" />
     <Content Include="Samples\kick_03.wma" />
