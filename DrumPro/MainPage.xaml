@@ -3095,7 +3095,7 @@
                 <ImageBrush Stretch="Fill" ImageSource="drum computer visuals tracks.jpg"/>
             </Rectangle.Fill>
         </Rectangle>
-        <Rectangle x:Name="background" Margin="0" Grid.Row="1" Stroke="Black" Width="1008" StrokeThickness="0">
+        <Rectangle x:Name="backgroundImage" Margin="0" Grid.Row="1" Stroke="Black" Width="1008" StrokeThickness="0">
             <Rectangle.Fill>
                 <ImageBrush Stretch="Fill" ImageSource="GUI/backgroundv2.png"/>
             </Rectangle.Fill>
