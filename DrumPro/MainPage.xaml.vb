@@ -6,13 +6,13 @@ Partial Public Class MainPage
     Inherits UserControl
 
     'Related to the data grid
-    Dim NotesPerBeat As Integer = 5
-    Dim NumberOfBeats As Integer = 10
+    Dim NotesPerBeat As Integer = 4
+    Dim NumberOfBeats As Integer = 4
     Dim NumberOfTacks As Integer = 10
-    Dim SamplesPerTrack As Integer = 4
+    Dim PlaySamplesPerTrack As Integer = 6
 
     'Playback related
-    Dim BPM As Integer = 200
+    Dim BPM As Integer = 80
     Dim TrackSpacing As Double
     Dim Playing As Boolean
 
@@ -23,14 +23,14 @@ Partial Public Class MainPage
 
     'Create Tracks Collection
     Dim TrackCollection As New ObservableCollection(Of Track)
+    Dim SampleCollection As New Microsoft.VisualBasic.Collection()
 
     Dim TrackPlayThread As New Thread(AddressOf AudioPlay)
 
     Public Sub New()
         InitializeComponent()
-
         TrackPlayThread.Start()
-
+        InitializeSamples()
         InitializeTracks()
     End Sub
 
@@ -40,16 +40,9 @@ Partial Public Class MainPage
             Dim track As New Track
             track.volume = 0.3
             track.name = "kick_" & Format(trackIndex + 1, "00")
-
-            Dim sampleUri As String = "Samples/kick_" & Format(trackIndex + 1, "00") & ".wma"
-
-            For sampleIndex As Integer = 0 To SamplesPerTrack - 1
-                Dim sample As New MediaElement
-                Dim st As System.Windows.Resources.StreamResourceInfo = Application.GetResourceStream(New Uri(sampleUri, UriKind.Relative))
-                sample.SetSource(st.Stream)
-                sample.AutoPlay = False
-                track.samples.Add(sample)
-            Next
+            track.numberOfPlaySamples = PlaySamplesPerTrack
+            track.sampleOptions = SampleCollection
+            track.sampleIndex = trackIndex + 1
 
             For beatIndex As Integer = 0 To NumberOfBeats - 1
                 Dim beat As New Beat
@@ -64,6 +57,20 @@ Partial Public Class MainPage
         Next
 
         TrackTilesPanel.DataContext = TrackCollection
+        TrackControlsPanel.DataContext = TrackCollection
+    End Sub
+
+    Sub InitializeSamples()
+        SampleCollection.Add(New Sample(New Uri("Samples/kick_01.wma", UriKind.Relative), "Kick", 1))
+        SampleCollection.Add(New Sample(New Uri("Samples/kick_02.wma", UriKind.Relative), "Slip", 2))
+        SampleCollection.Add(New Sample(New Uri("Samples/kick_03.wma", UriKind.Relative), "Plip", 3))
+        SampleCollection.Add(New Sample(New Uri("Samples/kick_04.wma", UriKind.Relative), "Hip", 4))
+        SampleCollection.Add(New Sample(New Uri("Samples/kick_05.wma", UriKind.Relative), "Knip", 5))
+        SampleCollection.Add(New Sample(New Uri("Samples/kick_06.wma", UriKind.Relative), "Lip", 6))
+        SampleCollection.Add(New Sample(New Uri("Samples/kick_07.wma", UriKind.Relative), "Pip", 7))
+        SampleCollection.Add(New Sample(New Uri("Samples/kick_08.wma", UriKind.Relative), "Sip", 8))
+        SampleCollection.Add(New Sample(New Uri("Samples/kick_09.wma", UriKind.Relative), "Rip", 9))
+        SampleCollection.Add(New Sample(New Uri("Samples/kick_10.wma", UriKind.Relative), "Rap", 10))
     End Sub
 
     'The click callback on the Play/Stop button
@@ -113,15 +120,18 @@ Partial Public Class MainPage
 
     'Function used for calibartion of the audioplayer
     Private Declare Function GetTickCount Lib "kernel32" () As Integer
-    Dim Elapsed As Integer
+    Dim Elapsed As Double
 
     Public Delegate Sub _PlaySample(ByRef trackIndex As Integer)
     Sub PlaySample(ByRef trackIndex As Integer)
         Dim track As Track = TrackCollection.Item(trackIndex)
-        Dim sample As MediaElement = track.samples.Item(CurrentPlayIndex)
-        sample.Stop()
-        sample.Volume = track.volume
-        sample.Play()
+        If track.playSamples.Count >= CurrentPlayIndex Then
+            Dim sample As MediaElement = track.playSamples.Item(CurrentPlayIndex)
+            sample.Stop()
+            sample.Volume = 0.2
+            'track.volume
+            sample.Play()
+        End If
     End Sub
 
 
@@ -130,7 +140,7 @@ Partial Public Class MainPage
         Do While True
             If Playing Then
                 'Set some variables
-                'Elapsed = GetTickCount
+                Elapsed = DateTime.Now.Ticks
 
                 'BPM = bmpField.Text
 
@@ -144,7 +154,6 @@ Partial Public Class MainPage
                 'Me.Invoke(New _TogglePlayingColumn(AddressOf TogglePlayingColumn), CurrentNoteIndex)
 
 
-
                 'Go through all the tracks
                 For trackIndex As Integer = 0 To NumberOfTacks - 1
                     If TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).checked Then
@@ -153,7 +162,7 @@ Partial Public Class MainPage
                 Next
 
                 'Loop trough MediaElements
-                If CurrentPlayIndex < SamplesPerTrack Then
+                If CurrentPlayIndex < PlaySamplesPerTrack Then
                     CurrentPlayIndex += 1
                 Else
                     CurrentPlayIndex = 1
@@ -172,12 +181,12 @@ Partial Public Class MainPage
                 End If
 
                 'Used for the timing
-                'Elapsed = GetTickCount - Elapsed
-                'If Elapsed < TrackSpacing Then
-                '    Thread.Sleep(TrackSpacing - Elapsed)
-                'Else
-                '    'MsgBox("loopt achter")
-                'End If
+                Elapsed = DateTime.Now.Ticks - Elapsed
+                If Elapsed < TrackSpacing Then
+                    Thread.Sleep(TrackSpacing - Elapsed)
+                Else
+                    'MsgBox("loopt achter")
+                End If
                 Thread.Sleep(TrackSpacing)
             End If
         Loop
@@ -253,4 +262,5 @@ Partial Public Class MainPage
             Application.Current.MainWindow.Close()
         End If
     End Sub
+
 End Class

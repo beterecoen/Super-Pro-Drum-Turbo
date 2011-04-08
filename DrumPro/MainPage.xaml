@@ -3268,7 +3268,7 @@
                 <ImageBrush Stretch="Fill" ImageSource="drum computer visuals tracks.jpg"/>
             </Rectangle.Fill>
         </Rectangle>
-        <Rectangle x:Name="background" Margin="0" Grid.Row="1" Stroke="Black" Width="1008" StrokeThickness="0">
+        <Rectangle x:Name="backgroundImage" Margin="0" Grid.Row="1" Stroke="Black" Width="1008" StrokeThickness="0">
             <Rectangle.Fill>
                 <ImageBrush Stretch="Fill" ImageSource="GUI/backgroundv2.png"/>
             </Rectangle.Fill>
@@ -3289,35 +3289,44 @@
                 <ImageBrush Stretch="Fill"/>
             </Button.Background>
         </Button>
-        <ComboBox HorizontalAlignment="Right" Height="20" Margin="0,189,4,0" Grid.Row="1" VerticalAlignment="Top" Width="228" Style="{StaticResource drumprostyle}"/>
-        <ComboBox HorizontalAlignment="Right" Height="21" Margin="0,229,6,0" Grid.Row="1" VerticalAlignment="Top" Width="226" Style="{StaticResource drumprostyle}"/>
-        <Slider HorizontalAlignment="Right" Height="16" Margin="0,210,8,0" Grid.Row="1" VerticalAlignment="Top" Width="178" Style="{StaticResource sliderdrum2}"/>
+        <ListBox ItemsSource="{Binding}" Height="452" Margin="776,182,0,0" Name="TrackControlsPanel" Background="{x:Null}" BorderBrush="{x:Null}" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="230">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="17"/>
+                        </Grid.RowDefinitions>
+                        <ComboBox Grid.Row="0" Height="20" Width="220" Style="{StaticResource drumprostyle}"
+                              ItemsSource="{Binding Path=sampleOptions, Mode=OneWay}" 
+                              SelectedValue="{Binding Path=sampleIndex, Mode=TwoWay}" 
+                              DisplayMemberPath="name" 
+                              SelectedValuePath="index"/>
+
+                        <Slider Margin="45,0,0,0" Grid.Row="1" Height="16" Width="175" Style="{StaticResource sliderdrum2}" HorizontalAlignment="Left" />
+
+                    </Grid>
+              
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+
         <Button x:Name="Close" Content="Button" HorizontalAlignment="Right" Margin="0,21,12,0" Grid.Row="1" Style="{StaticResource ButtonStyle4}" Width="28" Height="25" VerticalAlignment="Top"/>
         <Button x:Name="drums_Copy1" Content="Button" HorizontalAlignment="Right" Margin="0,21,40,0" Grid.Row="1" Style="{StaticResource ButtonStyle5}" Width="28" Height="25" VerticalAlignment="Top"/>
         <Button x:Name="drums_Copy2" Content="Button" HorizontalAlignment="Right" Margin="0,21,68,0" Grid.Row="1" Style="{StaticResource ButtonStyle6}" Width="28" Height="25" VerticalAlignment="Top"/>
         <Button x:Name="Stop" Content="Button" HorizontalAlignment="Left" Height="46" Margin="69,123,0,0" Grid.Row="1" Style="{StaticResource ButtonStyle7}" VerticalAlignment="Top" Width="67"/>
         <Button x:Name="Play" Content="Button" HorizontalAlignment="Left" Height="46" Margin="140,123,0,0" Grid.Row="1" Style="{StaticResource ButtonStyle8}" VerticalAlignment="Top" Width="67"/>
         <Slider HorizontalAlignment="Right" Height="16" Margin="0,153,12,0" Grid.Row="1" VerticalAlignment="Top" Width="178" Style="{StaticResource sliderdrum2}"/>
-        <ComboBox HorizontalAlignment="Right" Height="21" Margin="0,273,6,0" Grid.Row="1" VerticalAlignment="Top" Width="226" Style="{StaticResource drumprostyle}"/>
-        <Slider HorizontalAlignment="Right" Height="16" Margin="0,253,8,0" Grid.Row="1" VerticalAlignment="Top" Width="178" Style="{StaticResource sliderdrum2}"/>
-        <ComboBox HorizontalAlignment="Right" Margin="0,315,6,304" Grid.Row="1" Width="226" Style="{StaticResource drumprostyle}"/>
-        <Slider HorizontalAlignment="Right" Height="16" Margin="0,296,8,0" Grid.Row="1" VerticalAlignment="Top" Width="178" Style="{StaticResource sliderdrum2}"/>
-        <ComboBox HorizontalAlignment="Right" Height="21" Margin="0,0,6,260" Grid.Row="1" VerticalAlignment="Bottom" Width="226" Style="{StaticResource drumprostyle}"/>
-        <Slider HorizontalAlignment="Right" Height="16" Margin="0,0,8,285" Grid.Row="1" VerticalAlignment="Bottom" Width="178" Style="{StaticResource sliderdrum2}"/>
-        <ComboBox HorizontalAlignment="Right" Height="21" Margin="0,0,6,219" Grid.Row="1" VerticalAlignment="Bottom" Width="226" Style="{StaticResource drumprostyle}"/>
-        <Slider HorizontalAlignment="Right" Height="16" Margin="0,0,8,243" Grid.Row="1" VerticalAlignment="Bottom" Width="178" Style="{StaticResource sliderdrum2}"/>
-        <ComboBox HorizontalAlignment="Right" Height="21" Margin="0,0,6,175" Grid.Row="1" VerticalAlignment="Bottom" Width="226" Style="{StaticResource drumprostyle}"/>
-        <Slider HorizontalAlignment="Right" Height="16" Margin="0,0,8,201" Grid.Row="1" VerticalAlignment="Bottom" Width="178" Style="{StaticResource sliderdrum2}"/>
-        <ComboBox HorizontalAlignment="Right" Margin="0,0,6,133" Grid.Row="1" Width="226" Style="{StaticResource drumprostyle}" Height="21" VerticalAlignment="Bottom"/>
-        <Slider HorizontalAlignment="Right" Height="16" Margin="0,0,8,158" Grid.Row="1" VerticalAlignment="Bottom" Width="178" Style="{StaticResource sliderdrum2}"/>
-        <ComboBox HorizontalAlignment="Right" Height="21" Margin="0,0,6,89" Grid.Row="1" VerticalAlignment="Bottom" Width="226" Style="{StaticResource drumprostyle}"/>
-        <Slider HorizontalAlignment="Right" Height="16" Margin="0,0,8,115" Grid.Row="1" VerticalAlignment="Bottom" Width="178" Style="{StaticResource sliderdrum2}"/>
-        <ComboBox HorizontalAlignment="Right" Height="21" Margin="0,0,6,48" Grid.Row="1" VerticalAlignment="Bottom" Width="226" Style="{StaticResource drumprostyle}"/>
-        <Slider HorizontalAlignment="Right" Height="16" Margin="0,0,8,72" Grid.Row="1" VerticalAlignment="Bottom" Width="178" Style="{StaticResource sliderdrum2}"/>
-        <Slider HorizontalAlignment="Right" Height="16" Margin="0,0,8,30" Grid.Row="1" VerticalAlignment="Bottom" Width="178" Style="{StaticResource sliderdrum2}"/>
         <ComboBox HorizontalAlignment="Right" Height="20" Margin="0,30,268,0" Grid.Row="1" VerticalAlignment="Top" Width="148" Style="{StaticResource drumprostyle}"/>
         <ScrollBar Height="16" Margin="63,0,249,13" Grid.Row="1" VerticalAlignment="Bottom" Style="{StaticResource scrolldrumv3}"/>
-            <ListBox ItemsSource="{Binding}" Margin="69,189,258,30" x:Name="TrackTilesPanel" Grid.Row="1">
+        <ListBox ItemsSource="{Binding}" Margin="69,189,258,30" x:Name="TrackTilesPanel" Grid.Row="1">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Vertical"/>
@@ -3331,7 +3340,6 @@
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding name}" Height="20" VerticalAlignment="Top" Grid.Column="0"/>
 
                             <ListBox ItemsSource="{Binding beats}" Grid.Column="1">
                                 <ListBox.ItemsPanel>
@@ -3349,7 +3357,6 @@
                                             </ListBox.ItemsPanel>
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
-                                                    <!--<CheckBox IsChecked="{Binding checked, Mode=TwoWay}" Width="20" Height="20"></CheckBox>-->
                                                 <CheckBox IsChecked="{Binding checked, Mode=TwoWay}" Content="CheckBox" HorizontalAlignment="Left" Height="36" VerticalAlignment="Top" Width="36" Style="{StaticResource notes_template}"/>
                                             </DataTemplate>
                                             </ListBox.ItemTemplate>
@@ -3357,13 +3364,6 @@
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-
-                            <ItemsControl ItemsSource="{Binding samples}">
-                                <DataTemplate>
-                                    <MediaElement Source="{Binding uri}" Grid.Column="0" AutoPlay="True"/>
-                                </DataTemplate>
-                            </ItemsControl>
-
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
