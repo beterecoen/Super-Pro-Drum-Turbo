@@ -13,8 +13,6 @@ Partial Public Class MainPage
 
     'Playback related
     Dim BPM As Integer = 80
-    Dim TrackSpacing As Double
-    Dim Playing As Boolean
 
     'Indexes for playback
     Dim CurrentNoteIndex As Integer = 1
@@ -25,14 +23,20 @@ Partial Public Class MainPage
     Dim TrackCollection As New ObservableCollection(Of Track)
     Dim SampleCollection As New Microsoft.VisualBasic.Collection()
 
-    Dim TrackPlayThread As New Thread(AddressOf AudioPlay)
+    Dim AudioTimer As New System.Windows.Threading.DispatcherTimer()
 
     Public Sub New()
         InitializeComponent()
-        TrackPlayThread.Start()
         InitializeSamples()
         InitializeTracks()
+        UpdateAudioSpacing()
+        AddHandler AudioTimer.Tick, AddressOf PlayColumnSamples
     End Sub
+
+    Sub UpdateAudioSpacing()
+        AudioTimer.Interval = New TimeSpan(0, 0, 0, 0, (1 / (BPM * 4 / 60) * 1000))
+    End Sub
+
 
     'Function to initialize the Tracks
     Sub InitializeTracks()
@@ -75,22 +79,14 @@ Partial Public Class MainPage
 
     'The click callback on the Play/Stop button
     Private Sub Play_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Play.Click
-        If Playing = False Then
-            CurrentNoteIndex = 1
-            CurrentBeatIndex = 1
-            Playing = True
-            Play.Content = "Stop"
-        End If
+        CurrentNoteIndex = 1
+        CurrentBeatIndex = 1
+        AudioTimer.Start()
     End Sub
 
     Private Sub Stop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles [Stop].Click
-        If Playing = True Then
-            Playing = False
-        End If
+        AudioTimer.Stop()
     End Sub
-
-    'Delegate Function needed to be able to call ToggelPlayingColumn from within the AudioPlay Thread
-    Private Delegate Sub _TogglePlayingColumn(ByRef column As Integer)
 
     'Function to visualise the current playing column
     Sub TogglePlayingColumn(ByRef column As Integer)
@@ -118,78 +114,43 @@ Partial Public Class MainPage
         'Next
     End Sub
 
-    'Function used for calibartion of the audioplayer
-    Private Declare Function GetTickCount Lib "kernel32" () As Integer
-    Dim Elapsed As Double
 
-    Public Delegate Sub _PlaySample(ByRef trackIndex As Integer)
-    Sub PlaySample(ByRef trackIndex As Integer)
-        Dim track As Track = TrackCollection.Item(trackIndex)
-        If track.playSamples.Count >= CurrentPlayIndex Then
-            Dim sample As MediaElement = track.playSamples.Item(CurrentPlayIndex)
-            sample.Stop()
-            sample.Volume = 0.2
-            'track.volume
-            sample.Play()
-        End If
-    End Sub
+    'Function to play the samples of the current column
+    Public Sub PlayColumnSamples()
 
-
-    'Thread which plays the audio
-    Public Sub AudioPlay()
-        Do While True
-            If Playing Then
-                'Set some variables
-                Elapsed = DateTime.Now.Ticks
-
-                'BPM = bmpField.Text
-
-                If BPM = 0 Then
-                    TrackSpacing = 1 / ((BPM + 5) * 4 / 60) * 1000
-                Else
-                    TrackSpacing = 1 / (BPM * 4 / 60) * 1000
+        'Go through all the tracks
+        For trackIndex As Integer = 0 To NumberOfTacks - 1
+            If TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).checked Then
+                Dim track As Track = TrackCollection.Item(trackIndex)
+                If track.playSamples.Count >= CurrentPlayIndex Then
+                    Dim sample As MediaElement = track.playSamples.Item(CurrentPlayIndex)
+                    sample.Stop()
+                    sample.Volume = 0.1
+                    'track.volume
+                    sample.Play()
                 End If
-
-                'Call to visualise the current playing column
-                'Me.Invoke(New _TogglePlayingColumn(AddressOf TogglePlayingColumn), CurrentNoteIndex)
-
-
-                'Go through all the tracks
-                For trackIndex As Integer = 0 To NumberOfTacks - 1
-                    If TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).checked Then
-                        Dispatcher.BeginInvoke(New _PlaySample(AddressOf PlaySample), trackIndex)
-                    End If
-                Next
-
-                'Loop trough MediaElements
-                If CurrentPlayIndex < PlaySamplesPerTrack Then
-                    CurrentPlayIndex += 1
-                Else
-                    CurrentPlayIndex = 1
-                End If
-
-                'Loop trough Notes and Beats
-                If CurrentNoteIndex < NotesPerBeat Then
-                    CurrentNoteIndex += 1
-                Else
-                    CurrentNoteIndex = 1
-                    If CurrentBeatIndex < NumberOfBeats Then
-                        CurrentBeatIndex += 1
-                    Else
-                        CurrentBeatIndex = 1
-                    End If
-                End If
-
-                'Used for the timing
-                Elapsed = DateTime.Now.Ticks - Elapsed
-                If Elapsed < TrackSpacing Then
-                    Thread.Sleep(TrackSpacing - Elapsed)
-                Else
-                    'MsgBox("loopt achter")
-                End If
-                Thread.Sleep(TrackSpacing)
             End If
-        Loop
+        Next
+
+        'Loop trough MediaElements
+        If CurrentPlayIndex < PlaySamplesPerTrack Then
+            CurrentPlayIndex += 1
+        Else
+            CurrentPlayIndex = 1
+        End If
+
+        'Loop trough Notes and Beats
+        If CurrentNoteIndex < NotesPerBeat Then
+            CurrentNoteIndex += 1
+        Else
+            CurrentNoteIndex = 1
+            If CurrentBeatIndex < NumberOfBeats Then
+                CurrentBeatIndex += 1
+            Else
+                CurrentBeatIndex = 1
+            End If
+        End If
+
     End Sub
 
     'Runs when program is closed
