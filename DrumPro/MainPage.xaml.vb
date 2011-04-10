@@ -18,10 +18,12 @@ Partial Public Class MainPage
     Dim CurrentNoteIndex As Integer = 1
     Dim CurrentBeatIndex As Integer = 1
     Dim CurrentPlayIndex As Integer = 1
+    Dim CleaningThreshold As Integer = 25
 
     'Create Tracks Collection
     Dim TrackCollection As New ObservableCollection(Of Track)
     Dim SampleCollection As New Microsoft.VisualBasic.Collection()
+    Dim mediaElementContainer As New Canvas
 
     Dim AudioTimer As New System.Windows.Threading.DispatcherTimer()
 
@@ -30,6 +32,7 @@ Partial Public Class MainPage
         InitializeSamples()
         InitializeTracks()
         UpdateAudioSpacing()
+        LayoutRoot.Children.Add(mediaElementContainer)
         AddHandler AudioTimer.Tick, AddressOf PlayColumnSamples
     End Sub
 
@@ -129,13 +132,7 @@ Partial Public Class MainPage
 
             If TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).checked Then
                 Dim track As Track = TrackCollection.Item(trackIndex)
-                If track.playSamples.Count >= CurrentPlayIndex Then
-                    Dim sample As MediaElement = track.playSamples.Item(CurrentPlayIndex)
-                    sample.Position = System.TimeSpan.FromSeconds(0)
-                    sample.Stop()
-                    sample.Volume = track.volume
-                    sample.Play()
-                End If
+                PlaySample(track.CurrentSampleUri, track.volume)
             End If
         Next
 
@@ -158,6 +155,28 @@ Partial Public Class MainPage
             End If
         End If
 
+    End Sub
+
+    Private Sub PlaySample(ByRef uri As Uri, ByRef volume As Double)
+        Dim sample As New MediaElement
+        Dim st As System.Windows.Resources.StreamResourceInfo = Application.GetResourceStream(uri)
+        sample.SetSource(st.Stream)
+        sample.Volume = volume
+        sample.AutoPlay = True
+        mediaElementContainer.Children.Add(sample)
+        AddHandler sample.MediaEnded, AddressOf SampleEnded
+        'AddHandler sample.MediaOpened, AddressOf test
+    End Sub
+
+    Private Sub test(sender As MediaElement, e As RoutedEventArgs)
+        sender.play()
+    End Sub
+
+    Private Sub SampleEnded(sender As Object, e As RoutedEventArgs)
+        Dim count As Integer = mediaElementContainer.Children.Count
+        If count >= CleaningThreshold Then
+            mediaElementContainer.Children.RemoveAt(0)
+        End If
     End Sub
 
     'Runs when program is closed
