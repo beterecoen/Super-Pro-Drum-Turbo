@@ -120,6 +120,13 @@ Partial Public Class MainPage
 
         'Go through all the tracks
         For trackIndex As Integer = 0 To NumberOfTacks - 1
+            'trigger Highlight on current Note
+            If TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).IsHighlighted Then
+                TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).IsHighlighted = False
+            Else
+                TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).IsHighlighted = True
+            End If
+
             If TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).checked Then
                 Dim track As Track = TrackCollection.Item(trackIndex)
                 If track.playSamples.Count >= CurrentPlayIndex Then
