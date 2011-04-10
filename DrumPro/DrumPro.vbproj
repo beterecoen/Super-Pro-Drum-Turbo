@@ -130,6 +130,9 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="NoteBox.xaml.vb">
+      <DependentUpon>NoteBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Sample.vb" />
     <Compile Include="Track.vb" />
   </ItemGroup>
@@ -141,6 +144,10 @@
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NoteBox.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

@@ -79,12 +79,15 @@ Partial Public Class MainPage
 
     'The click callback on the Play/Stop button
     Private Sub Play_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Play.Click
+        TrackCollection.Item(1).beats.Item(1).notes.Item(1).IsHighlighted = True
+        'TrackCollection.Item(1).beats.Item(1).notes.Item(1).Checked = True
         CurrentNoteIndex = 1
         CurrentBeatIndex = 1
         AudioTimer.Start()
     End Sub
 
     Private Sub Stop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles [Stop].Click
+        TrackCollection.Item(1).beats.Item(1).notes.Item(1).IsHighlighted = False
         AudioTimer.Stop()
     End Sub
 
