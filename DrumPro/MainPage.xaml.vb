@@ -79,15 +79,12 @@ Partial Public Class MainPage
 
     'The click callback on the Play/Stop button
     Private Sub Play_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Play.Click
-        TrackCollection.Item(1).beats.Item(1).notes.Item(1).IsHighlighted = True
-        'TrackCollection.Item(1).beats.Item(1).notes.Item(1).Checked = True
         CurrentNoteIndex = 1
         CurrentBeatIndex = 1
         AudioTimer.Start()
     End Sub
 
     Private Sub Stop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles [Stop].Click
-        TrackCollection.Item(1).beats.Item(1).notes.Item(1).IsHighlighted = False
         AudioTimer.Stop()
     End Sub
 
@@ -123,6 +120,13 @@ Partial Public Class MainPage
 
         'Go through all the tracks
         For trackIndex As Integer = 0 To NumberOfTacks - 1
+            'trigger Highlight on current Note
+            If TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).IsHighlighted Then
+                TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).IsHighlighted = False
+            Else
+                TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).IsHighlighted = True
+            End If
+
             If TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).checked Then
                 Dim track As Track = TrackCollection.Item(trackIndex)
                 If track.playSamples.Count >= CurrentPlayIndex Then

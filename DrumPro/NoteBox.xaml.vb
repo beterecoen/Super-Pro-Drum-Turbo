@@ -30,7 +30,8 @@ Partial Public Class NoteBox
 
     Private Shared Sub OnIsHighlightedChanged(ByVal d As DependencyObject, ByVal e As DependencyPropertyChangedEventArgs)
         Dim nb As CheckBox = DirectCast(d, CheckBox)
-        VisualStateManager.GoToState(nb, "Fire", True)
+        VisualStateManager.GoToState(nb, "Fire", False)
+        VisualStateManager.GoToState(nb, "None", True)
     End Sub
 
 End Class

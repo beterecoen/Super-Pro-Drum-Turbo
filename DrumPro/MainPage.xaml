@@ -2313,41 +2313,8 @@
                             </Grid.ColumnDefinitions>
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
-                                    <VisualStateGroup.Transitions>
-                                        <VisualTransition GeneratedDuration="0:0:0.4" To="Fire">
-
-                                        	<ei:ExtendedVisualStateManager.TransitionEffect>
-                                        		<ee:FadeTransitionEffect/>
-                                        	</ei:ExtendedVisualStateManager.TransitionEffect>
-
-                                            <Storyboard>
-                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="extra_glow">
-                                                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                                                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0.995"/>
-                                                    <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
-                                                </DoubleAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </VisualTransition>
-                                    </VisualStateGroup.Transitions>
+                 
                                     <VisualState x:Name="Normal"/>
-                                    <VisualState x:Name="Fire">
-                                        <Storyboard>
-                                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="extra_glow"/>
-                                            <ColorAnimation Duration="0" To="#FF81772C" Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
-                                            <ColorAnimation Duration="0" To="#FFFFFEFA" Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
-                                            <DoubleAnimation Duration="0" To="2" Storyboard.TargetProperty="(Shape.StrokeThickness)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
-                                            <DoubleAnimation Duration="0" To="1.122" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
-                                            <DoubleAnimation Duration="0" To="0.063" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
-                                            <DoubleAnimation Duration="0" To="1.12" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
-                                            <DoubleAnimation Duration="0" To="-0.062" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
-                                            <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(Shape.Stroke).(GradientBrush.GradientStops)[0].(GradientStop.Offset)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
-                                            <ColorAnimation Duration="0" To="#FFB2BEFF" Storyboard.TargetProperty="(Shape.Stroke).(GradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
-                                            <ColorAnimation Duration="0" To="#FFB1D2C7" Storyboard.TargetProperty="(Shape.Stroke).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
-                                            <DoubleAnimation Duration="0" To="0.371" Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[1].(GradientStop.Offset)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
-                                            <ColorAnimation Duration="0" To="#69FFFFFF" Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
-                                            <ColorAnimation Duration="0" To="#BC000000" Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
-                                        </Storyboard>
-                                    </VisualState>
                                     <VisualState x:Name="Disabled"/>
                                     <VisualState x:Name="Pressed"/>
                                 </VisualStateGroup>
@@ -2412,6 +2379,34 @@
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="Highlights">
+                                	<VisualStateGroup.Transitions>
+                                		<VisualTransition GeneratedDuration="0:0:1">
+                                			<ei:ExtendedVisualStateManager.TransitionEffect>
+                                				<ee:FadeTransitionEffect/>
+                                			</ei:ExtendedVisualStateManager.TransitionEffect>
+                                		</VisualTransition>
+                                	</VisualStateGroup.Transitions>
+                                	<VisualState x:Name="Fire">
+                                		<Storyboard>
+                                			<DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="extra_glow"/>
+                                			<ColorAnimation Duration="0" To="#FF81772C" Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
+                                			<ColorAnimation Duration="0" To="#FFFFFEFA" Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
+                                			<DoubleAnimation Duration="0" To="2" Storyboard.TargetProperty="(Shape.StrokeThickness)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
+                                			<DoubleAnimation Duration="0" To="1.122" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
+                                			<DoubleAnimation Duration="0" To="0.063" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
+                                			<DoubleAnimation Duration="0" To="1.12" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
+                                			<DoubleAnimation Duration="0" To="-0.062" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
+                                			<DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(Shape.Stroke).(GradientBrush.GradientStops)[0].(GradientStop.Offset)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
+                                			<ColorAnimation Duration="0" To="#FFB2BEFF" Storyboard.TargetProperty="(Shape.Stroke).(GradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
+                                			<ColorAnimation Duration="0" To="#FFB1D2C7" Storyboard.TargetProperty="(Shape.Stroke).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
+                                			<DoubleAnimation Duration="0" To="0.371" Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[1].(GradientStop.Offset)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
+                                			<ColorAnimation Duration="0" To="#69FFFFFF" Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
+                                			<ColorAnimation Duration="0" To="#BC000000" Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="extra_glow" d:IsOptimized="True"/>
+                                		</Storyboard>
+                                	</VisualState>
+                                	<VisualState x:Name="None"/>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
                             <VisualStateManager.CustomVisualStateManager>
@@ -3453,11 +3448,6 @@
             <RowDefinition Height="0*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Rectangle x:Name="template_tracks" Margin="0" Grid.Row="1" Stroke="Black" Width="1008">
-            <Rectangle.Fill>
-                <ImageBrush Stretch="Fill" ImageSource="drum computer visuals tracks.jpg"/>
-            </Rectangle.Fill>
-        </Rectangle>
         <Rectangle x:Name="backgroundImage" Margin="0" Grid.Row="1" Stroke="Black" Width="1008" StrokeThickness="0">
             <Rectangle.Fill>
                 <ImageBrush Stretch="Fill" ImageSource="GUI/backgroundv2.png"/>
@@ -3552,7 +3542,5 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-        
-       
     </Grid>
 </UserControl>
