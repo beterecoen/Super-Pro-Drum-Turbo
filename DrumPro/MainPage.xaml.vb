@@ -131,9 +131,9 @@ Partial Public Class MainPage
                 Dim track As Track = TrackCollection.Item(trackIndex)
                 If track.playSamples.Count >= CurrentPlayIndex Then
                     Dim sample As MediaElement = track.playSamples.Item(CurrentPlayIndex)
+                    sample.Position = System.TimeSpan.FromSeconds(0)
                     sample.Stop()
-                    sample.Volume = 0.1
-                    'track.volume
+                    sample.Volume = track.volume
                     sample.Play()
                 End If
             End If
