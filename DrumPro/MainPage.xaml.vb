@@ -9,10 +9,6 @@ Partial Public Class MainPage
     Dim NotesPerBeat As Integer = 4
     Dim NumberOfBeats As Integer = 4
     Dim NumberOfTacks As Integer = 10
-    Dim PlaySamplesPerTrack As Integer = 6
-
-    'Playback related
-    Dim BPM As Integer = 80
 
     'Indexes for playback
     Dim CurrentNoteIndex As Integer = 1
@@ -24,7 +20,7 @@ Partial Public Class MainPage
     Dim TrackCollection As New ObservableCollection(Of Track)
     Dim SampleCollection As New Microsoft.VisualBasic.Collection()
     Dim mediaElementContainer As New Canvas
-
+    Dim ControlPropertiesObject As New ControlProperties()
     Dim AudioTimer As New System.Windows.Threading.DispatcherTimer()
 
     Public Sub New()
@@ -33,11 +29,13 @@ Partial Public Class MainPage
         InitializeTracks()
         UpdateAudioSpacing()
         LayoutRoot.Children.Add(mediaElementContainer)
+        MasterVolumeSilder.DataContext = ControlPropertiesObject
+        AddHandler ControlPropertiesObject.onBMPChanged, AddressOf UpdateAudioSpacing
         AddHandler AudioTimer.Tick, AddressOf PlayColumnSamples
     End Sub
 
     Sub UpdateAudioSpacing()
-        AudioTimer.Interval = New TimeSpan(0, 0, 0, 0, (1 / (BPM * 4 / 60) * 1000))
+        AudioTimer.Interval = New TimeSpan(0, 0, 0, 0, (1 / (ControlPropertiesObject.BPM * 4 / 60) * 1000))
     End Sub
 
 
@@ -46,8 +44,6 @@ Partial Public Class MainPage
         For trackIndex As Integer = 0 To NumberOfTacks - 1
             Dim track As New Track
             track.volume = 0.3
-            track.name = "kick_" & Format(trackIndex + 1, "00")
-            track.numberOfPlaySamples = PlaySamplesPerTrack
             track.sampleOptions = SampleCollection
             track.sampleIndex = trackIndex + 1
 
@@ -105,16 +101,6 @@ Partial Public Class MainPage
         '    End If
         'End If
 
-        ''Toggeling the column borders
-        'Dim index As Integer = 0
-        'For Each ctrl In TrackTilesPanel.Controls
-        '    If index = column Then
-        '        ctrl.BorderStyle = BorderStyle.FixedSingle
-        '    Else
-        '        ctrl.BorderStyle = BorderStyle.None
-        '    End If
-        '    index += 1
-        'Next
     End Sub
 
 
@@ -132,16 +118,9 @@ Partial Public Class MainPage
 
             If TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).checked Then
                 Dim track As Track = TrackCollection.Item(trackIndex)
-                PlaySample(track.CurrentSampleUri, track.volume)
+                PlaySample(track.stream, track.volume)
             End If
         Next
-
-        'Loop trough MediaElements
-        If CurrentPlayIndex < PlaySamplesPerTrack Then
-            CurrentPlayIndex += 1
-        Else
-            CurrentPlayIndex = 1
-        End If
 
         'Loop trough Notes and Beats
         If CurrentNoteIndex < NotesPerBeat Then
@@ -157,19 +136,13 @@ Partial Public Class MainPage
 
     End Sub
 
-    Private Sub PlaySample(ByRef uri As Uri, ByRef volume As Double)
+    Private Sub PlaySample(ByRef stream As System.IO.Stream, ByRef volume As Double)
         Dim sample As New MediaElement
-        Dim st As System.Windows.Resources.StreamResourceInfo = Application.GetResourceStream(uri)
-        sample.SetSource(st.Stream)
-        sample.Volume = volume
+        sample.SetSource(stream)
+        sample.Volume = volume * ControlPropertiesObject.MasterVolume
         sample.AutoPlay = True
         mediaElementContainer.Children.Add(sample)
         AddHandler sample.MediaEnded, AddressOf SampleEnded
-        'AddHandler sample.MediaOpened, AddressOf test
-    End Sub
-
-    Private Sub test(sender As MediaElement, e As RoutedEventArgs)
-        sender.play()
     End Sub
 
     Private Sub SampleEnded(sender As Object, e As RoutedEventArgs)

@@ -1,16 +1,15 @@
 ﻿Imports System.Collections.ObjectModel
 Public Class Track
-    Public Property name As String
-    Public Property CurrentSampleUri As Uri
+    Public Property stream As System.IO.Stream
     Public Property sampleOptions As New Microsoft.VisualBasic.Collection()
     Public Property volume As Double
     Public Property beats As New Microsoft.VisualBasic.Collection()
-    Public Property numberOfPlaySamples As Integer
 
     Private _sampleIndex As Integer
     Public Property sampleIndex As Integer
         Set(value As Integer)
-            CurrentSampleUri = sampleOptions.Item(value).uri
+            Dim st As System.Windows.Resources.StreamResourceInfo = Application.GetResourceStream(sampleOptions.Item(value).uri)
+            stream = st.Stream
             _sampleIndex = value
         End Set
         Get
