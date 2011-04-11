@@ -7,13 +7,11 @@ Partial Public Class MainPage
 
     'Related to the data grid
     Dim NotesPerBeat As Integer = 4
-    Dim NumberOfBeats As Integer = 4
-    Dim NumberOfTacks As Integer = 10
+    Dim NumberOfBeats As Integer = 2
+    Dim NumberOfTacks As Integer = 1
 
-    'Indexes for playback
-    Dim CurrentNoteIndex As Integer = 1
-    Dim CurrentBeatIndex As Integer = 1
-    Dim CurrentPlayIndex As Integer = 1
+    'Related to playback
+    Dim CurrentPlayIndex As Integer = 0
     Dim CleaningThreshold As Integer = 25
 
     'Create Tracks Collection
@@ -79,8 +77,7 @@ Partial Public Class MainPage
 
     'The click callback on the Play/Stop button
     Private Sub Play_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Play.Click
-        CurrentNoteIndex = 1
-        CurrentBeatIndex = 1
+        CurrentPlayIndex = 0
         AudioTimer.Start()
     End Sub
 
@@ -107,42 +104,38 @@ Partial Public Class MainPage
 
     'Function to play the samples of the current column
     Public Sub PlayColumnSamples()
-
         'Go through all the tracks
         For trackIndex As Integer = 0 To NumberOfTacks - 1
             'trigger Highlight on current Note
-            If TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).IsHighlighted Then
-                TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).IsHighlighted = False
-            Else
-                TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).IsHighlighted = True
-            End If
-
-            If TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).checked Then
+            'If TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).IsHighlighted Then
+            '    TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).IsHighlighted = False
+            'Else
+            '    TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).IsHighlighted = True
+            'End If
+            If TrackCollection.Item(trackIndex).isNoteChecked(CurrentPlayIndex) Then
                 Dim track As Track = TrackCollection.Item(trackIndex)
-                PlaySample(track.stream, track.volume)
+                PlaySample(track.getSample, track.volume)
             End If
         Next
-
-        'Loop trough Notes and Beats
-        If CurrentNoteIndex < NotesPerBeat Then
-            CurrentNoteIndex += 1
-        Else
-            CurrentNoteIndex = 1
-            If CurrentBeatIndex < NumberOfBeats Then
-                CurrentBeatIndex += 1
-            Else
-                CurrentBeatIndex = 1
-            End If
-        End If
-
+        incrementPlayIndex()
     End Sub
 
-    Private Sub PlaySample(ByRef stream As System.IO.Stream, ByRef volume As Double)
-        Dim sample As New MediaElement
-        sample.SetSource(stream)
+    Private Sub incrementPlayIndex()
+        If CurrentPlayIndex < (NumberOfBeats * NotesPerBeat) - 1 Then
+            CurrentPlayIndex += 1
+        Else
+            CurrentPlayIndex = 0
+        End If
+    End Sub
+
+    Private Sub PlaySample(ByRef sample As MediaElement, ByRef volume As Double)
         sample.Volume = volume * ControlPropertiesObject.MasterVolume
-        sample.AutoPlay = True
-        mediaElementContainer.Children.Add(sample)
+        Try
+            mediaElementContainer.Children.Add(sample)
+        Catch ex As Exception
+
+        End Try
+        sample.Play()
         AddHandler sample.MediaEnded, AddressOf SampleEnded
     End Sub
 
@@ -152,71 +145,6 @@ Partial Public Class MainPage
             mediaElementContainer.Children.RemoveAt(0)
         End If
     End Sub
-
-    'Runs when program is closed
-    'Private Sub Form1_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Unloaded
-    '    'Kill the audio Thread
-    '    TrackPlayThread.Abort()
-    'End Sub
-    'Private Sub BPMup_down(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BPMup.MouseDown
-    '    'initialize timer
-    '    timerMenupalying = True
-    '    Dim timer As New System.Windows.Forms.Timer
-    '    timer.Enabled = True
-    '    timer.Interval = 350
-    '    AddHandler timer.Tick, AddressOf Timer_Tick_up
-    'End Sub
-    'Private Sub BPMup_up(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BPMup.MouseUp
-    '    'commence kill timer
-    '    timerMenupalying = False
-    'End Sub
-    'Dim timerMenupalying As Boolean = True
-
-    'Private Sub BPMdown_release(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BPMdown.MouseUp
-    '    'commence kill timer
-    '    timerMenupalying = False
-    'End Sub
-
-    'Private Sub BPMdown_PressAndHold(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BPMdown.MouseDown
-    '    'initialize timer
-    '    timerMenupalying = True
-    '    Dim timer As New System.Windows.Forms.Timer
-    '    timer.Enabled = True
-    '    timer.Interval = 350
-    '    AddHandler timer.Tick, AddressOf Timer_Tick_down
-    'End Sub
-    'Private Sub Timer_Tick_up(ByVal Timer As System.Object, ByVal e As System.EventArgs)
-    '    'kills timer
-    '    If timerMenupalying = False Then
-    '        Timer.Dispose()
-    '    End If
-    '    'limits maximum bpm and increments bpm
-    '    If bpmField.Text < 250 Then
-    '        bpmField.Text += 1
-    '        Timer.Interval = 55
-    '    End If
-
-    'End Sub
-    'Private Sub Timer_Tick_down(ByVal Timer As System.Object, ByVal e As System.EventArgs)
-    '    'kills timer
-    '    If timerMenupalying = False Then
-    '        Timer.Dispose()
-    '    End If
-    '    'limits minimum bpm and increments bpm
-    '    If bpmField.Text > 0 Then
-    '        bpmField.Text += -1
-    '        Timer.Interval = 55
-    '    End If
-    'End Sub
-    ''limit bpm value
-    'Private Sub bpmField_MaskInputRejected(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles bpmField.TextChanged
-    '    If bpmField.Text = "" Then
-    '    Else
-    '        If bpmField.Text > 250 Then
-    '            bpmField.Text = 250
-    '        End If
-    '    End If
-    'End Sub
 
     Private Sub Close_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles Close.Click
         If Application.Current.IsRunningOutOfBrowser AndAlso Application.Current.HasElevatedPermissions Then
