@@ -1,5 +1,6 @@
 ﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:ee="http://schemas.microsoft.com/expression/2010/effects" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
 	xmlns:local="clr-namespace:DrumPro"
+	xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
 	x:Class="DrumPro.MainPage"
 	Width="1008" Height="640" mc:Ignorable="d">
     <UserControl.Resources>
@@ -3504,7 +3505,7 @@
         <Slider x:Name="MasterVolumeSilder"  HorizontalAlignment="Right" Height="16" Margin="0,153,12,0" Grid.Row="1" VerticalAlignment="Top" Width="178" Style="{StaticResource sliderdrum2}" Maximum="1" LargeChange="0.1" SmallChange="0.05" Value="{Binding MasterVolume, Mode=TwoWay}"/>
         <ComboBox HorizontalAlignment="Right" Height="20" Margin="0,30,268,0" Grid.Row="1" VerticalAlignment="Top" Width="148" Style="{StaticResource drumprostyle}"/>
         <ScrollBar Height="16" Margin="63,0,249,13" Grid.Row="1" VerticalAlignment="Bottom" Style="{StaticResource scrolldrumv3}"/>
-       
+
         
         
         
@@ -3542,5 +3543,6 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+    	<toolkit:NumericUpDown x:Name="BMPControl" HorizontalAlignment="Right" Margin="0,135,288,0" Grid.Row="1" VerticalAlignment="Top" d:LayoutOverrides="Height" Width="57" Minimum="1" Maximum="200" Increment="5" Value="{Binding BPM, Mode=TwoWay}"/>
     </Grid>
 </UserControl>

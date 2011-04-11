@@ -30,6 +30,7 @@ Partial Public Class MainPage
         UpdateAudioSpacing()
         LayoutRoot.Children.Add(mediaElementContainer)
         MasterVolumeSilder.DataContext = ControlPropertiesObject
+        BMPControl.DataContext = ControlPropertiesObject
         AddHandler ControlPropertiesObject.onBMPChanged, AddressOf UpdateAudioSpacing
         AddHandler AudioTimer.Tick, AddressOf PlayColumnSamples
     End Sub
