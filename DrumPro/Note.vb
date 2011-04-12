@@ -37,4 +37,8 @@ Public Class Note
         End Set
     End Property
 
+    Public Sub ToggelHighlight()
+        Me.IsHighlighted = Not (Me.IsHighlighted)
+    End Sub
+
 End Class
