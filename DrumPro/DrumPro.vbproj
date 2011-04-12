@@ -159,6 +159,8 @@
     <Resource Include="Resources\button_selected.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="track_overlay-right.png" />
+    <Resource Include="track_overlay_left.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\button_unselected.png">
