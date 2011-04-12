@@ -64,17 +64,29 @@ Partial Public Class MainPage
         TrackControlsPanel.DataContext = TrackCollection
     End Sub
 
+    Sub InitializeSamples2()
+        SampleCollection.Add(New Sample(New Uri("Samples/Vinyl_HiHat.wMA", UriKind.Relative), "Vinyl HiHat 1", 1))
+        SampleCollection.Add(New Sample(New Uri("Samples/Vinyl_HiHat_2.wma", UriKind.Relative), "Vinyl HiHat 2", 2))
+        SampleCollection.Add(New Sample(New Uri("Samples/Vinyl_open_hihat.wma", UriKind.Relative), "Vinyl open hihat", 3))
+        SampleCollection.Add(New Sample(New Uri("Samples/Vinyl_Kick.wma", UriKind.Relative), "Vinyl Kick 1", 4))
+        SampleCollection.Add(New Sample(New Uri("Samples/Vinyl_Kick_2.wma", UriKind.Relative), "Vinyl Kick 2", 5))
+        SampleCollection.Add(New Sample(New Uri("Samples/Vinyl_Ride.wma", UriKind.Relative), "Vinyl Ride 1", 6))
+        SampleCollection.Add(New Sample(New Uri("Samples/Vinyl_Ride_2.wma", UriKind.Relative), "Vinyl Ride 2", 7))
+        SampleCollection.Add(New Sample(New Uri("Samples/Vinyl_Snare.wma", UriKind.Relative), "Vinyl Snare", 8))
+        SampleCollection.Add(New Sample(New Uri("Samples/Vinyl_Tom_2.wma", UriKind.Relative), "Vinyl Tom 1", 9))
+        SampleCollection.Add(New Sample(New Uri("Samples/Vinyl_Tom_3.wma", UriKind.Relative), "Vinyl Tom 2", 10))
+    End Sub
     Sub InitializeSamples()
-        SampleCollection.Add(New Sample(New Uri("Samples/kick_01.wma", UriKind.Relative), "Kick", 1))
-        SampleCollection.Add(New Sample(New Uri("Samples/kick_02.wma", UriKind.Relative), "Slip", 2))
-        SampleCollection.Add(New Sample(New Uri("Samples/kick_03.wma", UriKind.Relative), "Plip", 3))
-        SampleCollection.Add(New Sample(New Uri("Samples/kick_04.wma", UriKind.Relative), "Hip", 4))
-        SampleCollection.Add(New Sample(New Uri("Samples/kick_05.wma", UriKind.Relative), "Knip", 5))
-        SampleCollection.Add(New Sample(New Uri("Samples/kick_06.wma", UriKind.Relative), "Lip", 6))
-        SampleCollection.Add(New Sample(New Uri("Samples/kick_07.wma", UriKind.Relative), "Pip", 7))
-        SampleCollection.Add(New Sample(New Uri("Samples/kick_08.wma", UriKind.Relative), "Sip", 8))
-        SampleCollection.Add(New Sample(New Uri("Samples/kick_09.wma", UriKind.Relative), "Rip", 9))
-        SampleCollection.Add(New Sample(New Uri("Samples/kick_10.wma", UriKind.Relative), "Rap", 10))
+        SampleCollection.Add(New Sample(New Uri("Samples/FreakyKit Clap.wma", UriKind.Relative), "FreakyKit Clap", 1))
+        SampleCollection.Add(New Sample(New Uri("Samples/FreakyKit Crash 1.wma", UriKind.Relative), "FreakyKit Crash 1", 2))
+        SampleCollection.Add(New Sample(New Uri("Samples/FreakyKit Crash 2.wma", UriKind.Relative), "FreakyKit Crash 2", 3))
+        SampleCollection.Add(New Sample(New Uri("Samples/FreakyKit Kick 1.wma", UriKind.Relative), "FreakyKit Kick 1", 4))
+        SampleCollection.Add(New Sample(New Uri("Samples/FreakyKit Kick 2.wma", UriKind.Relative), "FreakyKit Kick 2", 5))
+        SampleCollection.Add(New Sample(New Uri("Samples/FreakyKit Perc 1.wma", UriKind.Relative), "FreakyKit Perc 1", 6))
+        SampleCollection.Add(New Sample(New Uri("Samples/FreakyKit Perc 2.wma", UriKind.Relative), "FreakyKit Perc 2", 7))
+        SampleCollection.Add(New Sample(New Uri("Samples/FreakyKit Perc 3.wma", UriKind.Relative), "FreakyKit Perc 3", 8))
+        SampleCollection.Add(New Sample(New Uri("Samples/FreakyKit Perc 4.wma", UriKind.Relative), "FreakyKit Perc 4", 9))
+        SampleCollection.Add(New Sample(New Uri("Samples/FreakyKit Perc 5.wma", UriKind.Relative), "FreakyKit Perc 5", 10))
     End Sub
 
     'The click callback on the Play/Stop button
