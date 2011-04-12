@@ -11,7 +11,7 @@ Public Class ControlProperties
     End Sub
 
     Private masterVolumeValue As Double = 0.5
-    Private BPMValue As Integer = 80
+    Private BPMValue As Integer = 120
 
     Public Property MasterVolume() As Double
         Get
