@@ -459,6 +459,45 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="ScrollViewerStyle2" TargetType="ScrollViewer">
+        	<Setter Property="HorizontalContentAlignment" Value="Left"/>
+        	<Setter Property="VerticalContentAlignment" Value="Top"/>
+        	<Setter Property="VerticalScrollBarVisibility" Value="Visible"/>
+        	<Setter Property="Padding" Value="4"/>
+        	<Setter Property="BorderThickness" Value="1"/>
+        	<Setter Property="BorderBrush">
+        		<Setter.Value>
+        			<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+        				<GradientStop Color="#FFA3AEB9" Offset="0"/>
+        				<GradientStop Color="#FF8399A9" Offset="0.375"/>
+        				<GradientStop Color="#FF718597" Offset="0.375"/>
+        				<GradientStop Color="#FF617584" Offset="1"/>
+        			</LinearGradientBrush>
+        		</Setter.Value>
+        	</Setter>
+        	<Setter Property="Template">
+        		<Setter.Value>
+        			<ControlTemplate TargetType="ScrollViewer">
+        				<Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2">
+        					<Grid Background="{TemplateBinding Background}">
+        						<Grid.ColumnDefinitions>
+        							<ColumnDefinition Width="*"/>
+        							<ColumnDefinition Width="Auto"/>
+        						</Grid.ColumnDefinitions>
+        						<Grid.RowDefinitions>
+        							<RowDefinition Height="*"/>
+        							<RowDefinition Height="Auto"/>
+        						</Grid.RowDefinitions>
+        						<ScrollContentPresenter x:Name="ScrollContentPresenter" Cursor="{TemplateBinding Cursor}" ContentTemplate="{TemplateBinding ContentTemplate}" Margin="{TemplateBinding Padding}"/>
+        						<Rectangle Grid.Column="1" Fill="#FFE9EEF4" Grid.Row="1"/>
+        						<ScrollBar x:Name="VerticalScrollBar" Grid.Column="1" IsTabStop="False" Maximum="{TemplateBinding ScrollableHeight}" Margin="0,-1,-1,-1" Minimum="0" Orientation="Vertical" Grid.Row="0" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{TemplateBinding VerticalOffset}" ViewportSize="{TemplateBinding ViewportHeight}" Width="18"/>
+        						<ScrollBar x:Name="HorizontalScrollBar" Grid.Column="0" Height="18" IsTabStop="False" Maximum="{TemplateBinding ScrollableWidth}" Margin="-1,0,-1,-1" Minimum="0" Orientation="Horizontal" Grid.Row="1" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{TemplateBinding HorizontalOffset}" ViewportSize="{TemplateBinding ViewportWidth}"/>
+        					</Grid>
+        				</Border>
+        			</ControlTemplate>
+        		</Setter.Value>
+        	</Setter>
+        </Style>
         <Style x:Key="drumprostyle" TargetType="ComboBox">
             <Setter Property="Padding" Value="6,2,25,2"/>
             <Setter Property="Background" Value="#FF1F3B53"/>
@@ -705,7 +744,7 @@
                                             <GradientStop Color="#FFE4DBBD" Offset="1"/>
                                         </LinearGradientBrush>
                                     </Border.Background>
-                                    <ScrollViewer x:Name="ScrollViewer" BorderThickness="0" Padding="1">
+                                    <ScrollViewer x:Name="ScrollViewer" BorderThickness="0" Padding="1" Style="{StaticResource ScrollViewerStyle2}">
                                         <ItemsPresenter>
                                             <ItemsPresenter.OpacityMask>
                                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
