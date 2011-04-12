@@ -95,6 +95,7 @@
     <Reference Include="System.Windows.Controls, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System.Windows.Controls.Data, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System.Windows.Controls.Data.Input, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Windows.Controls.Data.Toolkit, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Controls.Input.Toolkit" />
     <Reference Include="System.Windows.Controls.Navigation, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Controls.Toolkit, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
@@ -155,12 +156,6 @@
     <None Include="My Project\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="bpm_down_sel.png" />
-    <Resource Include="bpm_down_uns.png" />
-    <Resource Include="bpm_up_sel.png" />
-    <Resource Include="bpm_up_uns.png" />
-    <Resource Include="note_off_uns.png" />
-    <Resource Include="note_on_uns.png" />
     <Resource Include="Resources\button_selected.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -178,6 +173,7 @@
     <Resource Include="GUI\bpm_down_uns.png" />
     <Resource Include="GUI\bpm_up_sel.png" />
     <Resource Include="GUI\bpm_up_uns.png" />
+    <Resource Include="GUI\bpm_down_sel.png" />
     <Content Include="DrumPro.xap" />
     <Resource Include="GUI\drums_sel.png" />
     <Resource Include="GUI\drums_uns.png" />
