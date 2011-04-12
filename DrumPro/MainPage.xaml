@@ -1,4 +1,4 @@
-﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:ee="http://schemas.microsoft.com/expression/2010/effects" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+﻿<UserControl  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:ee="http://schemas.microsoft.com/expression/2010/effects" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
 	xmlns:local="clr-namespace:DrumPro"
 	xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
 	x:Class="DrumPro.MainPage"
@@ -3664,7 +3664,7 @@
     	</Style>
     </UserControl.Resources>
 
-    <Grid x:Name="LayoutRoot" Background="White">
+    <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="0*"/>
             <RowDefinition/>
@@ -3718,8 +3718,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <Button x:Name="Close" Content="Button" HorizontalAlignment="Right" Margin="0,21,12,0" Grid.Row="1" Style="{StaticResource ButtonStyle4}" Width="28" Height="25" VerticalAlignment="Top"/>
-        <Button x:Name="drums_Copy1" Content="Button" HorizontalAlignment="Right" Margin="0,21,40,0" Grid.Row="1" Style="{StaticResource ButtonStyle5}" Width="28" Height="25" VerticalAlignment="Top"/>
-        <Button x:Name="drums_Copy2" Content="Button" HorizontalAlignment="Right" Margin="0,21,68,0" Grid.Row="1" Style="{StaticResource ButtonStyle6}" Width="28" Height="25" VerticalAlignment="Top"/>
+        <Button x:Name="drums_Copy2" Content="Button" HorizontalAlignment="Right" Margin="0,21,41,0" Grid.Row="1" Style="{StaticResource ButtonStyle6}" Width="28" Height="25" VerticalAlignment="Top"/>
         <Button x:Name="Stop" Content="Button" HorizontalAlignment="Left" Height="46" Margin="69,123,0,0" Grid.Row="1" Style="{StaticResource ButtonStyle7}" VerticalAlignment="Top" Width="67"/>
         <Button x:Name="Play" Content="Button" HorizontalAlignment="Left" Height="46" Margin="140,123,0,0" Grid.Row="1" Style="{StaticResource ButtonStyle8}" VerticalAlignment="Top" Width="67"/>
         <Slider HorizontalAlignment="Right" Height="16" Margin="0,153,12,0" Grid.Row="1" VerticalAlignment="Top" Width="178" Style="{StaticResource sliderdrum2}"/>
