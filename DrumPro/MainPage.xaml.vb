@@ -7,7 +7,7 @@ Partial Public Class MainPage
 
     'Related to the data grid
     Dim NotesPerBeat As Integer = 4
-    Dim NumberOfBeats As Integer = 4
+    Dim NumberOfBeats As Integer = 12
     Dim NumberOfTacks As Integer = 10
 
     'Related to playback
@@ -87,19 +87,12 @@ Partial Public Class MainPage
     End Sub
 
     'Function to visualise the current playing column
-    Sub TogglePlayingColumn(ByRef column As Integer)
-
-        ''Make the container scroll if needed
-        'If TrackTilesPanel.HorizontalScroll.Enabled Then
-        '    If (TrackTilesPanel.Width / 20 / 2) > column Then
-        '        TrackTilesPanel.HorizontalScroll.Value = 0
-        '    ElseIf column > (TrackNotes.GetUpperBound(1) - (TrackTilesPanel.Width / 20 / 2)) Then
-        '        TrackTilesPanel.HorizontalScroll.Value = TrackTilesPanel.HorizontalScroll.Maximum
-        '    Else
-        '        TrackTilesPanel.HorizontalScroll.Value = (column - ((TrackTilesPanel.Width / 20 / 2) - 1)) * 20
-        '    End If
-        'End If
-
+    Sub UpdateScollPosition()
+        Dim scrollviewer = TrackTilesPanel.GetScrollHost()
+        If scrollviewer.HorizontalScrollBarVisibility Then
+            Dim scrollSetpWidth As Double = scrollviewer.ScrollableWidth / (NumberOfBeats * NotesPerBeat)
+            scrollviewer.ScrollToHorizontalOffset(scrollSetpWidth * CurrentPlayIndex)
+        End If
     End Sub
 
 
@@ -112,6 +105,7 @@ Partial Public Class MainPage
                 PlaySample(track.getSample, track.volume)
             End If
             track.HighlightCurrent()
+            UpdateScollPosition()
         Next
         For trackIndex As Integer = 0 To NumberOfTacks - 1
             TrackCollection.Item(trackIndex).loadNextSample()

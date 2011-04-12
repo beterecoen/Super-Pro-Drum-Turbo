@@ -66,8 +66,8 @@ Public Class Track
 
     Private Sub updateNoteBeatIndex(ByVal CurrentPlayIndex As Integer)
         _currentBeatIndex = Int(CurrentPlayIndex / numberOfNotes) + 1
-        _currentNoteIndex = (CurrentPlayIndex Mod numberOfBeats) + 1
-        _nextNoteIndex = ((CurrentPlayIndex + 1) Mod numberOfBeats) + 1
+        _currentNoteIndex = (CurrentPlayIndex Mod numberOfNotes) + 1
+        _nextNoteIndex = ((CurrentPlayIndex + 1) Mod numberOfNotes) + 1
         If CurrentPlayIndex = (numberOfBeats * numberOfNotes) - 1 Then
             _nextBeatIndex = 1
         Else
