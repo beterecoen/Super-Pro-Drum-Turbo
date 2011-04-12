@@ -1,6 +1,10 @@
 ﻿Imports System.Collections.ObjectModel
 Public Class Track
 
+    Public Sub New()
+        _sample = New MediaElement
+    End Sub
+
     Public Property sampleOptions As New Microsoft.VisualBasic.Collection()
     Public Property volume As Double
     Public Property beats As New Microsoft.VisualBasic.Collection()
@@ -39,9 +43,6 @@ Public Class Track
 
     Public Function isNoteChecked(ByVal CurrentPlayIndex As Integer) As Boolean
         updateNoteBeatIndex(CurrentPlayIndex)
-        If beats.Item(_nextBeatIndex).notes.Item(_nextNoteIndex).checked Then
-            loadNextSample()
-        End If
         If beats.Item(_currentBeatIndex).notes.Item(_currentNoteIndex).checked Then
             Return True
         Else
@@ -49,10 +50,12 @@ Public Class Track
         End If
     End Function
 
-    Private Sub loadNextSample()
-        _sample = New MediaElement
-        _sample.SetSource(_stream)
-        _sample.AutoPlay = False
+    Public Sub loadNextSample()
+        If beats.Item(_nextBeatIndex).notes.Item(_nextNoteIndex).checked Then
+            _sample = New MediaElement
+            _sample.SetSource(_stream)
+            _sample.AutoPlay = False
+        End If
     End Sub
 
     Public ReadOnly Property getSample() As MediaElement

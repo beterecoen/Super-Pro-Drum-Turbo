@@ -27,6 +27,7 @@ Partial Public Class MainPage
         InitializeTracks()
         UpdateAudioSpacing()
         LayoutRoot.Children.Add(mediaElementContainer)
+        mediaElementContainer.Children.Add(New MediaElement)
         MasterVolumeSilder.DataContext = ControlPropertiesObject
         BMPControl.DataContext = ControlPropertiesObject
         AddHandler ControlPropertiesObject.onBMPChanged, AddressOf UpdateAudioSpacing
@@ -34,7 +35,7 @@ Partial Public Class MainPage
     End Sub
 
     Sub UpdateAudioSpacing()
-        AudioTimer.Interval = New TimeSpan(0, 0, 0, 0, (1 / (ControlPropertiesObject.BPM * 4 / 60) * 1000))
+        AudioTimer.Interval = New TimeSpan((1 / (ControlPropertiesObject.BPM * 4 / 60) * 10000000))
     End Sub
 
 
@@ -117,6 +118,9 @@ Partial Public Class MainPage
                 PlaySample(track.getSample, track.volume)
             End If
         Next
+        For trackIndex As Integer = 0 To NumberOfTacks - 1
+            TrackCollection.Item(trackIndex).loadNextSample()
+        Next
         incrementPlayIndex()
     End Sub
 
@@ -130,12 +134,13 @@ Partial Public Class MainPage
 
     Private Sub PlaySample(ByRef sample As MediaElement, ByRef volume As Double)
         sample.Volume = volume * ControlPropertiesObject.MasterVolume
-        Try
-            mediaElementContainer.Children.Add(sample)
-        Catch ex As Exception
 
-        End Try
-        sample.Play()
+        'Make sure the sample is not the same as the previous one
+        If Not mediaElementContainer.Children.Last.Equals(sample) Then
+            mediaElementContainer.Children.Add(sample)
+            sample.Play()
+        End If
+
         AddHandler sample.MediaEnded, AddressOf SampleEnded
     End Sub
 
