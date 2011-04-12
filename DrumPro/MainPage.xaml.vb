@@ -76,7 +76,7 @@ Partial Public Class MainPage
         SampleCollection.Add(New Sample(New Uri("Samples/Vinyl_Tom_2.wma", UriKind.Relative), "Vinyl Tom 1", 9))
         SampleCollection.Add(New Sample(New Uri("Samples/Vinyl_Tom_3.wma", UriKind.Relative), "Vinyl Tom 2", 10))
     End Sub
-    Sub InitializeSamples()
+    Sub InitializeSamples3()
         SampleCollection.Add(New Sample(New Uri("Samples/FreakyKit Clap.wma", UriKind.Relative), "FreakyKit Clap", 1))
         SampleCollection.Add(New Sample(New Uri("Samples/FreakyKit Crash 1.wma", UriKind.Relative), "FreakyKit Crash 1", 2))
         SampleCollection.Add(New Sample(New Uri("Samples/FreakyKit Crash 2.wma", UriKind.Relative), "FreakyKit Crash 2", 3))
@@ -88,7 +88,18 @@ Partial Public Class MainPage
         SampleCollection.Add(New Sample(New Uri("Samples/FreakyKit Perc 4.wma", UriKind.Relative), "FreakyKit Perc 4", 9))
         SampleCollection.Add(New Sample(New Uri("Samples/FreakyKit Perc 5.wma", UriKind.Relative), "FreakyKit Perc 5", 10))
     End Sub
-
+    Sub InitializeSamples()
+        SampleCollection.Add(New Sample(New Uri("Samples/Electro Clap 1.wma", UriKind.Relative), "Electro Clap 1", 1))
+        SampleCollection.Add(New Sample(New Uri("Samples/Electro Clap 2.wma", UriKind.Relative), "Electro Clap 2", 2))
+        SampleCollection.Add(New Sample(New Uri("Samples/Electro FX 1.wma", UriKind.Relative), "Electro FX 1", 3))
+        SampleCollection.Add(New Sample(New Uri("Samples/Electro FX 2.wma", UriKind.Relative), "Electro FX 2", 4))
+        SampleCollection.Add(New Sample(New Uri("Samples/Electro Kick 1.wma", UriKind.Relative), "Electro Kick 1", 5))
+        SampleCollection.Add(New Sample(New Uri("Samples/Electro Kick 2.wma", UriKind.Relative), "Electro Kick 2", 6))
+        SampleCollection.Add(New Sample(New Uri("Samples/Electro Kick 3.wma", UriKind.Relative), "Electro Kick 3", 7))
+        SampleCollection.Add(New Sample(New Uri("Samples/Electro Open HiHat.wma", UriKind.Relative), "Electro Open HiHat", 8))
+        SampleCollection.Add(New Sample(New Uri("Samples/Electro Snare 1.wma", UriKind.Relative), "Electro Snare 1", 9))
+        SampleCollection.Add(New Sample(New Uri("Samples/Electro Snare 2.wma", UriKind.Relative), "Electro Snare 2", 10))
+    End Sub
     'The click callback on the Play/Stop button
     Private Sub Play_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Play.Click
         CurrentNoteIndex = 1
