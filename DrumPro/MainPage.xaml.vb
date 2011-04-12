@@ -7,8 +7,8 @@ Partial Public Class MainPage
 
     'Related to the data grid
     Dim NotesPerBeat As Integer = 4
-    Dim NumberOfBeats As Integer = 2
-    Dim NumberOfTacks As Integer = 1
+    Dim NumberOfBeats As Integer = 4
+    Dim NumberOfTacks As Integer = 10
 
     'Related to playback
     Dim CurrentPlayIndex As Integer = 0
