@@ -2455,12 +2455,12 @@
                             <Grid HorizontalAlignment="Left" RenderTransformOrigin="1.25,0.972" Grid.ColumnSpan="2" Width="36" d:LayoutOverrides="Height">
                                 <Rectangle x:Name="unactive_note" Height="36">
                                     <Rectangle.Fill>
-                                        <ImageBrush Stretch="Fill" ImageSource="note_off_uns.png"/>
+                                        <ImageBrush Stretch="Fill" ImageSource="GUI/note_off_uns.png"/>
                                     </Rectangle.Fill>
                                 </Rectangle>
                                 <Rectangle x:Name="active_note" RadiusY="1" RadiusX="1" Stroke="#00000000" StrokeThickness="1" Width="36" Height="36" Opacity="0">
                                     <Rectangle.Fill>
-                                        <ImageBrush Stretch="Fill" ImageSource="note_on_uns.png"/>
+                                        <ImageBrush Stretch="Fill" ImageSource="GUI/note_on_uns.png"/>
                                     </Rectangle.Fill>
                                 </Rectangle>
                                 <Rectangle x:Name="extra_glow" Margin="2" Opacity="0" RenderTransformOrigin="0.5,0.5">
@@ -4869,7 +4869,7 @@
     									<Rectangle x:Name="Background" Fill="{TemplateBinding Background}"/>
     									<Rectangle x:Name="rectangle" Opacity="0">
     										<Rectangle.Fill>
-    											<ImageBrush Stretch="Fill" ImageSource="bpm_up_sel.png"/>
+    											<ImageBrush Stretch="Fill" ImageSource="GUI/bpm_up_sel.png"/>
     										</Rectangle.Fill>
     									</Rectangle>
     								</Grid>
@@ -4897,7 +4897,7 @@
     									<Rectangle x:Name="Background" Fill="{TemplateBinding Background}"/>
     									<Rectangle x:Name="rectangle" Opacity="0">
     										<Rectangle.Fill>
-    											<ImageBrush Stretch="Fill" ImageSource="bpm_down_sel.png"/>
+    											<ImageBrush Stretch="Fill" ImageSource="GUI/bpm_down_sel.png"/>
     										</Rectangle.Fill>
     									</Rectangle>
     								</Grid>
@@ -4930,12 +4930,12 @@
     							</Button>
     							<RepeatButton x:Name="IncreaseButton" ClickMode="Press" Grid.Column="1" IsTabStop="False" Grid.Row="0" Template="{StaticResource IncreaseButtonTemplate}" BorderBrush="{x:Null}" HorizontalAlignment="Right" Width="30">
     								<RepeatButton.Background>
-    									<ImageBrush Stretch="Fill" ImageSource="bpm_up_uns.png"/>
+    									<ImageBrush Stretch="Fill" ImageSource="GUI/bpm_up_uns.png"/>
     								</RepeatButton.Background>
     							</RepeatButton>
     							<RepeatButton x:Name="DecreaseButton" ClickMode="Press" Grid.Column="1" IsTabStop="False" Grid.Row="1" Template="{StaticResource DecreaseButtonTemplate}" BorderBrush="{x:Null}" HorizontalAlignment="Right" Width="30">
     								<RepeatButton.Background>
-    									<ImageBrush Stretch="Fill" ImageSource="bpm_down_uns.png"/>
+    									<ImageBrush Stretch="Fill" ImageSource="GUI/bpm_down_uns.png"/>
     								</RepeatButton.Background>
     							</RepeatButton>
     						</Grid>
