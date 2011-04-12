@@ -136,6 +136,10 @@
       <DependentUpon>NoteBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Sample.vb" />
+    <Compile Include="SampleColletion.vb" />
+    <Compile Include="XComboBox.xaml.vb">
+      <DependentUpon>XComboBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Track.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +202,10 @@
     <Content Include="Samples\Vinyl_Snare.wma" />
     <Content Include="Samples\Vinyl_Tom_2.wma" />
     <Content Include="Samples\Vinyl_Tom_3.wma" />
+    <Page Include="XComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Resource Include="GUI\background.png" />
     <Resource Include="GUI\backgroundv2.png" />
     <Resource Include="GUI\bpm_down_uns.png" />

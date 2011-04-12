@@ -5634,7 +5634,7 @@
                             <RowDefinition Height="23"/>
                             <RowDefinition Height="20"/>
                         </Grid.RowDefinitions>
-                        <ComboBox Grid.Row="0" Height="20" Width="220" Style="{StaticResource drumprostyle}"
+                        <local:XComboBox Grid.Row="0" Height="20" Width="220" Style="{StaticResource drumprostyle}"
                                   Margin="2,0,0,0"
                               ItemsSource="{Binding sampleOptions, Mode=OneWay}" 
                               SelectedValue="{Binding sampleIndex, Mode=TwoWay}" 
@@ -5652,7 +5652,11 @@
         <Button x:Name="Stop" Content="Button" HorizontalAlignment="Left" Height="46" Margin="69,123,0,0" Grid.Row="1" Style="{StaticResource ButtonStyle7}" VerticalAlignment="Top" Width="67"/>
         <Button x:Name="Play" Content="Button" HorizontalAlignment="Left" Height="46" Margin="140,123,0,0" Grid.Row="1" Style="{StaticResource ButtonStyle8}" VerticalAlignment="Top" Width="67"/>
         <Slider x:Name="MasterVolumeSilder"  HorizontalAlignment="Right" Height="16" Margin="0,153,12,0" Grid.Row="1" VerticalAlignment="Top" Width="178" Style="{StaticResource sliderdrum2}" Maximum="1" LargeChange="0.1" SmallChange="0.05" Value="{Binding MasterVolume, Mode=TwoWay}"/>
-        <ComboBox HorizontalAlignment="Right" Height="20" Margin="0,30,268,0" Grid.Row="1" VerticalAlignment="Top" Width="148" Style="{StaticResource drumprostyle}"/>
+        <local:XComboBox HorizontalAlignment="Right" Height="20" Margin="0,30,268,0" Grid.Row="1" VerticalAlignment="Top" Width="148" Style="{StaticResource drumprostyle}" x:Name="PresetSelection" 
+                              ItemsSource="{Binding PresetCollection, Mode=OneWay}" 
+                              SelectedValue="{Binding presetIndex, Mode=TwoWay}" 
+                              DisplayMemberPath="name" 
+                              SelectedValuePath="index"/>
 
         
         
