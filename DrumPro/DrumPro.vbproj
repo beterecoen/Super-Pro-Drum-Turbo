@@ -155,8 +155,6 @@
     <None Include="My Project\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="note_off_uns.png" />
-    <Resource Include="note_on_uns.png" />
     <Resource Include="Resources\button_selected.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
