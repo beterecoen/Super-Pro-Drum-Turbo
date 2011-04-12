@@ -9,6 +9,15 @@ Public Class Track
     Public Property volume As Double
     Public Property beats As New Microsoft.VisualBasic.Collection()
 
+    Private Property _stream As System.IO.Stream
+    Private Property _currentSample As MediaElement
+    Private Property _sample As MediaElement
+    Private Property _sampleIndex As Integer
+    Private Property _currentNoteIndex As Integer
+    Private Property _currentBeatIndex As Integer
+    Private Property _nextNoteIndex As Integer
+    Private Property _nextBeatIndex As Integer
+
     Public Property sampleIndex As Integer
         Set(value As Integer)
             Dim st As System.Windows.Resources.StreamResourceInfo = Application.GetResourceStream(sampleOptions.Item(value).uri)
@@ -31,15 +40,6 @@ Public Class Track
             Return beats.Item(1).notes.Count()
         End Get
     End Property
-
-    Private Property _stream As System.IO.Stream
-    Private Property _currentSample As MediaElement
-    Private Property _sample As MediaElement
-    Private Property _sampleIndex As Integer
-    Private Property _currentNoteIndex As Integer
-    Private Property _currentBeatIndex As Integer
-    Private Property _nextNoteIndex As Integer
-    Private Property _nextBeatIndex As Integer
 
     Public Function isNoteChecked(ByVal CurrentPlayIndex As Integer) As Boolean
         updateNoteBeatIndex(CurrentPlayIndex)
@@ -73,6 +73,10 @@ Public Class Track
         Else
             _nextBeatIndex = Int((CurrentPlayIndex + 1) / numberOfNotes) + 1
         End If
+    End Sub
+
+    Public Sub HighlightCurrent()
+        beats.Item(_currentBeatIndex).notes.Item(_currentNoteIndex).ToggelHighlight()
     End Sub
 
 End Class

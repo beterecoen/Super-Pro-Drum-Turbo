@@ -107,16 +107,11 @@ Partial Public Class MainPage
     Public Sub PlayColumnSamples()
         'Go through all the tracks
         For trackIndex As Integer = 0 To NumberOfTacks - 1
-            'trigger Highlight on current Note
-            'If TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).IsHighlighted Then
-            '    TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).IsHighlighted = False
-            'Else
-            '    TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).IsHighlighted = True
-            'End If
-            If TrackCollection.Item(trackIndex).isNoteChecked(CurrentPlayIndex) Then
-                Dim track As Track = TrackCollection.Item(trackIndex)
+            Dim track As Track = TrackCollection.Item(trackIndex)
+            If track.isNoteChecked(CurrentPlayIndex) Then
                 PlaySample(track.getSample, track.volume)
             End If
+            track.HighlightCurrent()
         Next
         For trackIndex As Integer = 0 To NumberOfTacks - 1
             TrackCollection.Item(trackIndex).loadNextSample()
@@ -136,7 +131,7 @@ Partial Public Class MainPage
         sample.Volume = volume * ControlPropertiesObject.MasterVolume
 
         'Make sure the sample is not the same as the previous one
-        If Not mediaElementContainer.Children.Last.Equals(sample) Then
+        If Not mediaElementContainer.Children.Contains(sample) Then
             mediaElementContainer.Children.Add(sample)
             sample.Play()
         End If
