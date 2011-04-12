@@ -165,8 +165,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="track_overlay-right.png" />
-    <Resource Include="track_overlay-v2.png" />
-    <Resource Include="track_overlay.png" />
     <Resource Include="track_overlay_left.png" />
   </ItemGroup>
   <ItemGroup>
