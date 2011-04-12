@@ -7,7 +7,7 @@ Partial Public Class MainPage
 
     'Related to the data grid
     Dim NotesPerBeat As Integer = 4
-    Dim NumberOfBeats As Integer = 12
+    Dim NumberOfBeats As Integer = 4
     Dim NumberOfTacks As Integer = 10
 
     'Related to playback
@@ -16,21 +16,23 @@ Partial Public Class MainPage
 
     'Create Tracks Collection
     Dim TrackCollection As New ObservableCollection(Of Track)
-    Dim SampleCollection As New Microsoft.VisualBasic.Collection()
     Dim mediaElementContainer As New Canvas
     Dim ControlPropertiesObject As New ControlProperties()
     Dim AudioTimer As New System.Windows.Threading.DispatcherTimer()
 
     Public Sub New()
         InitializeComponent()
-        InitializeSamples()
         InitializeTracks()
         UpdateAudioSpacing()
         LayoutRoot.Children.Add(mediaElementContainer)
         mediaElementContainer.Children.Add(New MediaElement)
+
         MasterVolumeSilder.DataContext = ControlPropertiesObject
         BMPControl.DataContext = ControlPropertiesObject
+        PresetSelection.DataContext = ControlPropertiesObject
+
         AddHandler ControlPropertiesObject.onBMPChanged, AddressOf UpdateAudioSpacing
+        AddHandler ControlPropertiesObject.onPresetChanged, AddressOf UpdateSampleCollection
         AddHandler AudioTimer.Tick, AddressOf PlayColumnSamples
     End Sub
 
@@ -38,13 +40,18 @@ Partial Public Class MainPage
         AudioTimer.Interval = New TimeSpan((1 / (ControlPropertiesObject.BPM * 4 / 60) * 10000000))
     End Sub
 
+    Sub UpdateSampleCollection(ByVal SampleCollection As SampleColletion)
+        For Each track As Track In TrackCollection
+            track.sampleOptions = SampleCollection.samples
+        Next
+    End Sub
 
     'Function to initialize the Tracks
     Sub InitializeTracks()
         For trackIndex As Integer = 0 To NumberOfTacks - 1
             Dim track As New Track
             track.volume = 0.3
-            track.sampleOptions = SampleCollection
+            track.sampleOptions = ControlPropertiesObject.currentSampleCollection.samples
             track.sampleIndex = trackIndex + 1
 
             For beatIndex As Integer = 0 To NumberOfBeats - 1
@@ -61,19 +68,6 @@ Partial Public Class MainPage
 
         TrackTilesPanel.DataContext = TrackCollection
         TrackControlsPanel.DataContext = TrackCollection
-    End Sub
-
-    Sub InitializeSamples()
-        SampleCollection.Add(New Sample(New Uri("Samples/kick_01.wma", UriKind.Relative), "Kick", 1))
-        SampleCollection.Add(New Sample(New Uri("Samples/kick_02.wma", UriKind.Relative), "Slip", 2))
-        SampleCollection.Add(New Sample(New Uri("Samples/kick_03.wma", UriKind.Relative), "Plip", 3))
-        SampleCollection.Add(New Sample(New Uri("Samples/kick_04.wma", UriKind.Relative), "Hip", 4))
-        SampleCollection.Add(New Sample(New Uri("Samples/kick_05.wma", UriKind.Relative), "Knip", 5))
-        SampleCollection.Add(New Sample(New Uri("Samples/kick_06.wma", UriKind.Relative), "Lip", 6))
-        SampleCollection.Add(New Sample(New Uri("Samples/kick_07.wma", UriKind.Relative), "Pip", 7))
-        SampleCollection.Add(New Sample(New Uri("Samples/kick_08.wma", UriKind.Relative), "Sip", 8))
-        SampleCollection.Add(New Sample(New Uri("Samples/kick_09.wma", UriKind.Relative), "Rip", 9))
-        SampleCollection.Add(New Sample(New Uri("Samples/kick_10.wma", UriKind.Relative), "Rap", 10))
     End Sub
 
     'The click callback on the Play/Stop button
@@ -99,16 +93,15 @@ Partial Public Class MainPage
     'Function to play the samples of the current column
     Public Sub PlayColumnSamples()
         'Go through all the tracks
-        For trackIndex As Integer = 0 To NumberOfTacks - 1
-            Dim track As Track = TrackCollection.Item(trackIndex)
+        For Each track As Track In TrackCollection
             If track.isNoteChecked(CurrentPlayIndex) Then
                 PlaySample(track.getSample, track.volume)
             End If
-            track.HighlightCurrent()
-            UpdateScollPosition()
+            'track.HighlightCurrent()
         Next
-        For trackIndex As Integer = 0 To NumberOfTacks - 1
-            TrackCollection.Item(trackIndex).loadNextSample()
+        'UpdateScollPosition()
+        For Each track As Track In TrackCollection
+            track.loadNextSample()
         Next
         incrementPlayIndex()
     End Sub

@@ -1,18 +1,40 @@
 ﻿Imports System.Collections.ObjectModel
+Imports System.ComponentModel
+
 Public Class Track
+    Implements INotifyPropertyChanged
+
+    Public Event PropertyChanged As PropertyChangedEventHandler _
+    Implements INotifyPropertyChanged.PropertyChanged
+
+    Private Sub NotifyPropertyChanged(ByVal info As String)
+        RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(info))
+    End Sub
 
     Public Sub New()
         _sample = New MediaElement
     End Sub
 
-    Public Property sampleOptions As New Microsoft.VisualBasic.Collection()
+    Private Property _sampleOptions As New Collection
+
+    Public Property sampleOptions As Collection
+        Set(value As Collection)
+            _sampleOptions = value
+            NotifyPropertyChanged("sampleOptions")
+            'sampleIndex = _sampleIndex
+        End Set
+        Get
+            Return _sampleOptions
+        End Get
+    End Property
+
     Public Property volume As Double
     Public Property beats As New Microsoft.VisualBasic.Collection()
 
     Private Property _stream As System.IO.Stream
     Private Property _currentSample As MediaElement
     Private Property _sample As MediaElement
-    Private Property _sampleIndex As Integer
+    Private Property _sampleIndex As Integer = 1
     Private Property _currentNoteIndex As Integer
     Private Property _currentBeatIndex As Integer
     Private Property _nextNoteIndex As Integer
@@ -23,6 +45,7 @@ Public Class Track
             Dim st As System.Windows.Resources.StreamResourceInfo = Application.GetResourceStream(sampleOptions.Item(value).uri)
             _stream = st.Stream
             _sampleIndex = value
+            NotifyPropertyChanged("sampleIndex")
         End Set
         Get
             Return _sampleIndex

@@ -136,6 +136,10 @@
       <DependentUpon>NoteBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Sample.vb" />
+    <Compile Include="SampleColletion.vb" />
+    <Compile Include="XComboBox.xaml.vb">
+      <DependentUpon>XComboBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Track.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +172,40 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Samples\FreakyKit Crash 1.wma" />
+    <Content Include="Samples\FreakyKit Crash 2.wma" />
+    <Content Include="Samples\FreakyKit Perc 1.wma" />
+    <Content Include="Samples\FreakyKit Perc 2.wma" />
+    <Content Include="Samples\FreakyKit Perc 3.wma" />
+    <Content Include="Samples\FreakyKit Perc 4.wma" />
+    <Content Include="Samples\FreakyKit Perc 5.wma" />
+    <Content Include="Samples\FreakyKit Kick 1.wma" />
+    <Content Include="Samples\FreakyKit Kick 2.wma" />
+    <Content Include="Samples\Electro Clap 1.wma" />
+    <Content Include="Samples\Electro Clap 2.wma" />
+    <Content Include="Samples\Electro FX 1.wma" />
+    <Content Include="Samples\Electro FX 2.wma" />
+    <Content Include="Samples\Electro Kick 1.wma" />
+    <Content Include="Samples\Electro Kick 2.wma" />
+    <Content Include="Samples\Electro Kick 3.wma" />
+    <Content Include="Samples\Electro Open HiHat.wma" />
+    <Content Include="Samples\Electro Snare 1.wma" />
+    <Content Include="Samples\Electro Snare 2.wma" />
+    <Content Include="Samples\FreakyKit Clap.wma" />
+    <Content Include="Samples\Vinyl_HiHat.wma" />
+    <Content Include="Samples\Vinyl_HiHat_2.wma" />
+    <Content Include="Samples\Vinyl_Kick.wma" />
+    <Content Include="Samples\Vinyl_Kick_2.wma" />
+    <Content Include="Samples\Vinyl_open_hihat.wma" />
+    <Content Include="Samples\Vinyl_Ride.wma" />
+    <Content Include="Samples\Vinyl_Ride_2.wma" />
+    <Content Include="Samples\Vinyl_Snare.wma" />
+    <Content Include="Samples\Vinyl_Tom_2.wma" />
+    <Content Include="Samples\Vinyl_Tom_3.wma" />
+    <Page Include="XComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Resource Include="GUI\background.png" />
     <Resource Include="GUI\backgroundv2.png" />
     <Resource Include="GUI\bpm_down_uns.png" />
@@ -194,16 +232,6 @@
     <None Include="My Project\OutOfBrowserSettings.xml" />
     <Resource Include="GUI\note_off_uns.png" />
     <Resource Include="GUI\note_on_uns.png" />
-    <Content Include="Samples\kick_01.wma" />
-    <Content Include="Samples\kick_02.wma" />
-    <Content Include="Samples\kick_03.wma" />
-    <Content Include="Samples\kick_04.wma" />
-    <Content Include="Samples\kick_05.wma" />
-    <Content Include="Samples\kick_06.wma" />
-    <Content Include="Samples\kick_07.wma" />
-    <Content Include="Samples\kick_08.wma" />
-    <Content Include="Samples\kick_09.wma" />
-    <Content Include="Samples\kick_10.wma" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
