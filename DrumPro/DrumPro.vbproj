@@ -125,6 +125,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Beat.vb" />
+    <Compile Include="ControlProperties.vb" />
     <Compile Include="Note.vb" />
     <Compile Include="MainPage.xaml.vb">
       <DependentUpon>MainPage.xaml</DependentUpon>

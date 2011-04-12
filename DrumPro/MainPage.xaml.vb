@@ -9,20 +9,18 @@ Partial Public Class MainPage
     Dim NotesPerBeat As Integer = 4
     Dim NumberOfBeats As Integer = 4
     Dim NumberOfTacks As Integer = 10
-    Dim PlaySamplesPerTrack As Integer = 6
-
-    'Playback related
-    Dim BPM As Integer = 80
 
     'Indexes for playback
     Dim CurrentNoteIndex As Integer = 1
     Dim CurrentBeatIndex As Integer = 1
     Dim CurrentPlayIndex As Integer = 1
+    Dim CleaningThreshold As Integer = 25
 
     'Create Tracks Collection
     Dim TrackCollection As New ObservableCollection(Of Track)
     Dim SampleCollection As New Microsoft.VisualBasic.Collection()
-
+    Dim mediaElementContainer As New Canvas
+    Dim ControlPropertiesObject As New ControlProperties()
     Dim AudioTimer As New System.Windows.Threading.DispatcherTimer()
 
     Public Sub New()
@@ -30,11 +28,15 @@ Partial Public Class MainPage
         InitializeSamples()
         InitializeTracks()
         UpdateAudioSpacing()
+        LayoutRoot.Children.Add(mediaElementContainer)
+        MasterVolumeSilder.DataContext = ControlPropertiesObject
+        BMPControl.DataContext = ControlPropertiesObject
+        AddHandler ControlPropertiesObject.onBMPChanged, AddressOf UpdateAudioSpacing
         AddHandler AudioTimer.Tick, AddressOf PlayColumnSamples
     End Sub
 
     Sub UpdateAudioSpacing()
-        AudioTimer.Interval = New TimeSpan(0, 0, 0, 0, (1 / (BPM * 4 / 60) * 1000))
+        AudioTimer.Interval = New TimeSpan(0, 0, 0, 0, (1 / (ControlPropertiesObject.BPM * 4 / 60) * 1000))
     End Sub
 
 
@@ -43,8 +45,6 @@ Partial Public Class MainPage
         For trackIndex As Integer = 0 To NumberOfTacks - 1
             Dim track As New Track
             track.volume = 0.3
-            track.name = "kick_" & Format(trackIndex + 1, "00")
-            track.numberOfPlaySamples = PlaySamplesPerTrack
             track.sampleOptions = SampleCollection
             track.sampleIndex = trackIndex + 1
 
@@ -102,16 +102,6 @@ Partial Public Class MainPage
         '    End If
         'End If
 
-        ''Toggeling the column borders
-        'Dim index As Integer = 0
-        'For Each ctrl In TrackTilesPanel.Controls
-        '    If index = column Then
-        '        ctrl.BorderStyle = BorderStyle.FixedSingle
-        '    Else
-        '        ctrl.BorderStyle = BorderStyle.None
-        '    End If
-        '    index += 1
-        'Next
     End Sub
 
 
@@ -129,22 +119,9 @@ Partial Public Class MainPage
 
             If TrackCollection.Item(trackIndex).beats.Item(CurrentBeatIndex).notes.Item(CurrentNoteIndex).checked Then
                 Dim track As Track = TrackCollection.Item(trackIndex)
-                If track.playSamples.Count >= CurrentPlayIndex Then
-                    Dim sample As MediaElement = track.playSamples.Item(CurrentPlayIndex)
-                    sample.Stop()
-                    sample.Volume = 0.1
-                    'track.volume
-                    sample.Play()
-                End If
+                PlaySample(track.stream, track.volume)
             End If
         Next
-
-        'Loop trough MediaElements
-        If CurrentPlayIndex < PlaySamplesPerTrack Then
-            CurrentPlayIndex += 1
-        Else
-            CurrentPlayIndex = 1
-        End If
 
         'Loop trough Notes and Beats
         If CurrentNoteIndex < NotesPerBeat Then
@@ -158,6 +135,22 @@ Partial Public Class MainPage
             End If
         End If
 
+    End Sub
+
+    Private Sub PlaySample(ByRef stream As System.IO.Stream, ByRef volume As Double)
+        Dim sample As New MediaElement
+        sample.SetSource(stream)
+        sample.Volume = volume * ControlPropertiesObject.MasterVolume
+        sample.AutoPlay = True
+        mediaElementContainer.Children.Add(sample)
+        AddHandler sample.MediaEnded, AddressOf SampleEnded
+    End Sub
+
+    Private Sub SampleEnded(sender As Object, e As RoutedEventArgs)
+        Dim count As Integer = mediaElementContainer.Children.Count
+        If count >= CleaningThreshold Then
+            mediaElementContainer.Children.RemoveAt(0)
+        End If
     End Sub
 
     'Runs when program is closed

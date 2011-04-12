@@ -3711,7 +3711,7 @@
                               DisplayMemberPath="name" 
                               SelectedValuePath="index"/>
 
-                        <Slider Margin="54,0,0,0" Grid.Row="1" Height="20" Width="175" Style="{StaticResource sliderdrum2}" HorizontalAlignment="Left"/>
+                        <Slider Margin="54,0,0,0" Grid.Row="1" Height="20" Width="175" Style="{StaticResource sliderdrum2}" HorizontalAlignment="Left" Maximum="1" LargeChange="0.1" SmallChange="0.05" Value="{Binding volume, Mode=TwoWay}"/>
                     </Grid>
               
                 </DataTemplate>
@@ -3721,10 +3721,10 @@
         <Button x:Name="drums_Copy2" Content="Button" HorizontalAlignment="Right" Margin="0,21,41,0" Grid.Row="1" Style="{StaticResource ButtonStyle6}" Width="28" Height="25" VerticalAlignment="Top"/>
         <Button x:Name="Stop" Content="Button" HorizontalAlignment="Left" Height="46" Margin="69,123,0,0" Grid.Row="1" Style="{StaticResource ButtonStyle7}" VerticalAlignment="Top" Width="67"/>
         <Button x:Name="Play" Content="Button" HorizontalAlignment="Left" Height="46" Margin="140,123,0,0" Grid.Row="1" Style="{StaticResource ButtonStyle8}" VerticalAlignment="Top" Width="67"/>
-        <Slider HorizontalAlignment="Right" Height="16" Margin="0,153,12,0" Grid.Row="1" VerticalAlignment="Top" Width="178" Style="{StaticResource sliderdrum2}"/>
+        <Slider x:Name="MasterVolumeSilder"  HorizontalAlignment="Right" Height="16" Margin="0,153,12,0" Grid.Row="1" VerticalAlignment="Top" Width="178" Style="{StaticResource sliderdrum2}" Maximum="1" LargeChange="0.1" SmallChange="0.05" Value="{Binding MasterVolume, Mode=TwoWay}"/>
         <ComboBox HorizontalAlignment="Right" Height="20" Margin="0,30,268,0" Grid.Row="1" VerticalAlignment="Top" Width="148" Style="{StaticResource drumprostyle}"/>
         <ScrollBar Height="16" Margin="63,0,249,13" Grid.Row="1" VerticalAlignment="Bottom" Style="{StaticResource scrolldrumv3}"/>
-       
+
         
         
         
@@ -3762,6 +3762,6 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-    	<toolkit:NumericUpDown Margin="0,114,249,0" Grid.Row="1" VerticalAlignment="Top" Style="{StaticResource NumericUpDownStyle1}" Height="61" HorizontalAlignment="Right" Width="191" Maximum="249" Value="120"/>
+    	<toolkit:NumericUpDown x:Name="BMPControl" Margin="0,114,249,0" Grid.Row="1" VerticalAlignment="Top" Style="{StaticResource NumericUpDownStyle1}" Height="61" HorizontalAlignment="Right" Width="191" Maximum="249" Value="{Binding BPM, Mode=TwoWay}"/>
     </Grid>
 </UserControl>
