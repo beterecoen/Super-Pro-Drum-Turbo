@@ -5706,5 +5706,7 @@
     			<ImageBrush Stretch="Fill" ImageSource="track_overlay-right.png"/>
     		</Rectangle.Fill>
     	</Rectangle>
+        <CheckBox Content="Auto Scroll" Grid.Row="1" Height="16" HorizontalAlignment="Left" Margin="448,129,0,0" Name="AutoScroll" VerticalAlignment="Top" />
+        <CheckBox Content="Visual Play" Grid.Row="1" Height="16" HorizontalAlignment="Left" Margin="448,150,0,0" Name="VisualPlay" VerticalAlignment="Top" IsEnabled="True" />
     </Grid>
 </UserControl>

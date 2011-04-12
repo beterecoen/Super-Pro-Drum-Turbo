@@ -7,7 +7,7 @@ Partial Public Class MainPage
 
     'Related to the data grid
     Dim NotesPerBeat As Integer = 4
-    Dim NumberOfBeats As Integer = 4
+    Dim NumberOfBeats As Integer = 8
     Dim NumberOfTacks As Integer = 10
 
     'Related to playback
@@ -93,13 +93,18 @@ Partial Public Class MainPage
     'Function to play the samples of the current column
     Public Sub PlayColumnSamples()
         'Go through all the tracks
+        Dim isVisualPalying As Boolean = VisualPlay.IsChecked
         For Each track As Track In TrackCollection
             If track.isNoteChecked(CurrentPlayIndex) Then
                 PlaySample(track.getSample, track.volume)
             End If
-            'track.HighlightCurrent()
+            If isVisualPalying Then
+                track.HighlightCurrent()
+            End If
         Next
-        'UpdateScollPosition()
+        If AutoScroll.IsChecked Then
+            UpdateScollPosition()
+        End If
         For Each track As Track In TrackCollection
             track.loadNextSample()
         Next
