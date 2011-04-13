@@ -120,7 +120,6 @@ Partial Public Class MainPage
             CurrentPlayIndex = 0
         End If
     End Sub
-
     Private Sub PlaySample(ByRef sample As MediaElement, ByRef volume As Double)
         sample.Volume = volume * ControlPropertiesObject.MasterVolume
 
