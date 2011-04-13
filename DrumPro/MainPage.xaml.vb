@@ -8,9 +8,9 @@ Partial Public Class MainPage
     Inherits UserControl
 
     'Related to the data grid
-    Dim NotesPerBeat As Integer = 4
-    Dim NumberOfBeats As Integer = 8
-    Dim NumberOfTacks As Integer = 10
+    Dim currentNotesPerBeat As Integer = 4
+    Dim currentNumberOfBeats As Integer = 8
+    Dim currentNumberOfTacks As Integer = 10
 
     'Related to playback
     Dim CurrentPlayIndex As Integer = 0
@@ -24,7 +24,7 @@ Partial Public Class MainPage
 
     Public Sub New()
         InitializeComponent()
-        InitializeTracks()
+        InitializeTracks(currentNumberOfBeats, currentNotesPerBeat)
         UpdateAudioSpacing()
         LayoutRoot.Children.Add(mediaElementContainer)
         mediaElementContainer.Children.Add(New MediaElement)
@@ -32,6 +32,11 @@ Partial Public Class MainPage
         MasterVolumeSilder.DataContext = ControlPropertiesObject
         BMPControl.DataContext = ControlPropertiesObject
         PresetSelection.DataContext = ControlPropertiesObject
+        NumberOfBeatsUI.DataContext = ControlPropertiesObject
+        NotesPerBeatUI.DataContext = ControlPropertiesObject
+
+        ControlPropertiesObject.NumberOfBeats = currentNumberOfBeats
+        ControlPropertiesObject.NotesPerBeat = currentNotesPerBeat
 
         AddHandler ControlPropertiesObject.onBMPChanged, AddressOf UpdateAudioSpacing
         AddHandler ControlPropertiesObject.onPresetChanged, AddressOf UpdateSampleCollection
@@ -49,15 +54,16 @@ Partial Public Class MainPage
     End Sub
 
     'Function to initialize the Tracks
-    Sub InitializeTracks()
-        For trackIndex As Integer = 0 To NumberOfTacks - 1
+    Sub InitializeTracks(ByVal numberOfBeats As Integer, ByVal notesPerBeat As Integer)
+        TrackCollection.Clear()
+        For trackIndex As Integer = 0 To currentNumberOfTacks - 1
             Dim track As New Track
-            track.volume = 0.3
+            track.volume = 0.5
             track.sampleOptions = ControlPropertiesObject.currentSampleCollection.samples
             track.sampleIndex = trackIndex + 1
-            For beatIndex As Integer = 0 To NumberOfBeats - 1
+            For beatIndex As Integer = 0 To numberOfBeats - 1
                 Dim beat As New Beat
-                For noteIndex As Integer = 0 To NotesPerBeat - 1
+                For noteIndex As Integer = 0 To notesPerBeat - 1
                     Dim note As New Note
                     beat.notes.Add(note, CStr(noteIndex))
                 Next
@@ -79,11 +85,15 @@ Partial Public Class MainPage
         AudioTimer.Stop()
     End Sub
 
+    Function maxPlayIndex() As Integer
+        Return currentNumberOfBeats * currentNotesPerBeat
+    End Function
+
     'Function to visualise the current playing column
     Sub UpdateScollPosition()
         Dim scrollviewer = TrackTilesPanel.GetScrollHost()
         If scrollviewer.HorizontalScrollBarVisibility Then
-            Dim scrollSetpWidth As Double = scrollviewer.ScrollableWidth / (NumberOfBeats * NotesPerBeat)
+            Dim scrollSetpWidth As Double = scrollviewer.ScrollableWidth / maxPlayIndex()
             scrollviewer.ScrollToHorizontalOffset(scrollSetpWidth * CurrentPlayIndex)
         End If
     End Sub
@@ -111,7 +121,7 @@ Partial Public Class MainPage
     End Sub
 
     Private Sub incrementPlayIndex()
-        If CurrentPlayIndex < (NumberOfBeats * NotesPerBeat) - 1 Then
+        If CurrentPlayIndex < maxPlayIndex() - 1 Then
             CurrentPlayIndex += 1
         Else
             CurrentPlayIndex = 0
@@ -206,8 +216,8 @@ Partial Public Class MainPage
         Dim root As New XElement("root")
         root.Add(New XElement("bpm", ControlPropertiesObject.BPM))
         root.Add(New XElement("mastervolume", ControlPropertiesObject.MasterVolume))
-        root.Add(New XElement("beats", NumberOfBeats))
-        root.Add(New XElement("notes", NotesPerBeat))
+        root.Add(New XElement("beats", currentNumberOfBeats))
+        root.Add(New XElement("notes", currentNotesPerBeat))
         root.Add(New XElement("presetindex", ControlPropertiesObject.presetIndex))
 
         Dim elementTrackCollection As New XElement("trackcollection")
@@ -232,4 +242,12 @@ Partial Public Class MainPage
 
         Return root
     End Function
+
+    Private Sub CreateGridUI_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles CreateGridUI.Click
+        AudioTimer.Stop()
+        currentNumberOfBeats = ControlPropertiesObject.NumberOfBeats
+        currentNotesPerBeat = ControlPropertiesObject.NotesPerBeat
+        CurrentPlayIndex = 0
+        InitializeTracks(currentNumberOfBeats, currentNotesPerBeat)
+    End Sub
 End Class
