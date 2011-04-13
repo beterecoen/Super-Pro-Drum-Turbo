@@ -40,6 +40,28 @@ Public Class ControlProperties
 
     Public Event onBMPChanged()
 
+    Private Property NumberOfBeatsValue As Integer
+    Public Property NumberOfBeats As Integer
+        Set(value As Integer)
+            NumberOfBeatsValue = value
+            NotifyPropertyChanged("NumberOfBeats")
+        End Set
+        Get
+            Return NumberOfBeatsValue
+        End Get
+    End Property
+
+    Private Property NotesPerBeatValue As Integer
+    Public Property NotesPerBeat As Integer
+        Set(value As Integer)
+            NotesPerBeatValue = value
+            NotifyPropertyChanged("NotesPerBeat")
+        End Set
+        Get
+            Return NotesPerBeatValue
+        End Get
+    End Property
+
     Private Property localPresetCollection As New Microsoft.VisualBasic.Collection()
 
     Public ReadOnly Property PresetCollection As Microsoft.VisualBasic.Collection
@@ -54,6 +76,7 @@ Public Class ControlProperties
         Set(value As Integer)
             RaiseEvent onPresetChanged(localPresetCollection.Item(value))
             _presetIndex = value
+            NotifyPropertyChanged("presetIndex")
         End Set
         Get
             Return _presetIndex
