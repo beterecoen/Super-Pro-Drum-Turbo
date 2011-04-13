@@ -172,6 +172,10 @@ Partial Public Class MainPage
         Dim root = XML.Element("root")
         ControlPropertiesObject.BPM = root.Element("bpm").Value
         ControlPropertiesObject.presetIndex = root.Element("presetindex").Value
+        ControlPropertiesObject.NumberOfBeats = root.Element("beats")
+        ControlPropertiesObject.NotesPerBeat = root.Element("notes")
+        currentNumberOfBeats = root.Element("beats")
+        currentNotesPerBeat = root.Element("notes")
 
         TrackCollection.Clear()
 
