@@ -5708,5 +5708,7 @@
     	</Rectangle>
         <CheckBox Content="Auto Scroll" Grid.Row="1" Height="16" HorizontalAlignment="Left" Margin="448,129,0,0" Name="AutoScroll" VerticalAlignment="Top" />
         <CheckBox Content="Visual Play" Grid.Row="1" Height="16" HorizontalAlignment="Left" Margin="448,150,0,0" Name="VisualPlay" VerticalAlignment="Top" IsEnabled="True" />
+        <Button Content="Load File" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="344,150,0,0" Name="LoadFile" VerticalAlignment="Top" Width="75" />
+        <Button Content="Save" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="344,123,0,0" Name="SaveDrum" VerticalAlignment="Top" Width="75" />
     </Grid>
 </UserControl>

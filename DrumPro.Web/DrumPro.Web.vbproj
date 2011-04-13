@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClientBin\DrumPro.xap" />
+    <Content Include="ClientBin\sampleXML.xml" />
     <Content Include="DrumProTestPage.aspx" />
     <Content Include="DrumProTestPage.html" />
     <Content Include="Silverlight.js" />

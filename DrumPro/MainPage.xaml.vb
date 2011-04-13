@@ -1,6 +1,8 @@
 ﻿'Imports Microsoft.DirectX.AudioVideoPlayback
 Imports System.Threading
 Imports System.Collections.ObjectModel
+Imports System.Xml.Linq
+Imports System.IO
 
 Partial Public Class MainPage
     Inherits UserControl
@@ -144,4 +146,92 @@ Partial Public Class MainPage
         End If
     End Sub
 
+    Private Sub LoadFile_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles LoadFile.Click
+        Dim openFileDialog As New OpenFileDialog()
+        openFileDialog.Filter = "XML Files (*.xml)|*.xml|All files (*.*)|*.*"
+        openFileDialog.FilterIndex = 1
+        openFileDialog.Multiselect = False
+
+        If openFileDialog.ShowDialog() = True Then
+            Dim fileStream As System.IO.Stream = openFileDialog.File.OpenRead
+            Using reader As New System.IO.StreamReader(fileStream)
+                ReadXML(reader.ReadToEnd())
+            End Using
+        End If
+    End Sub
+
+    Private Sub ReadXML(ByRef xmldocument As String)
+        Dim XML As XDocument = XDocument.Parse(xmldocument)
+        Dim root = XML.Element("root")
+        ControlPropertiesObject.BPM = root.Element("bpm").Value
+        ControlPropertiesObject.presetIndex = root.Element("presetindex").Value
+
+        'Dim elementTrackCollection As New XElement("trackcollection")
+
+        'For Each track As Track In TrackCollection
+        '    Dim elementTrack As New XElement("track")
+        '    elementTrack.Add(New XElement("volume", track.volume))
+        '    elementTrack.Add(New XElement("sampleindex", track.sampleIndex))
+
+        '    Dim elementBeats As New XElement("beats")
+        '    For Each beat As Beat In track.beats
+        '        Dim elementBeat As New XElement("beat")
+        '        For Each Note As Note In beat.notes
+        '            elementBeat.Add(New XElement("notechecked", Note.Checked))
+        '        Next
+        '        elementBeats.Add(elementBeat)
+        '    Next
+        '    elementTrack.Add(elementBeats)
+        '    elementTrackCollection.Add(elementTrack)
+        'Next
+        'root.Add(elementTrackCollection)
+    End Sub
+
+    Private Sub SaveDrum_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles SaveDrum.Click
+        Dim saveFileDialog As New SaveFileDialog()
+
+        saveFileDialog.DefaultExt = "xml"
+        saveFileDialog.Filter = "XML Files (*.xml)|*.xml|All files (*.*)|*.*"
+        saveFileDialog.FilterIndex = 1
+
+        If saveFileDialog.ShowDialog() = True Then
+            Using stream As Stream = saveFileDialog.OpenFile()
+                Dim sw As New StreamWriter(stream, System.Text.Encoding.UTF8)
+                sw.Write(GetGeneratedXML().ToString())
+                sw.Close()
+                stream.Close()
+            End Using
+        End If
+    End Sub
+
+    Private Function GetGeneratedXML() As XElement
+        Dim root As New XElement("root")
+        root.Add(New XElement("bpm", ControlPropertiesObject.BPM))
+        root.Add(New XElement("mastervolume", ControlPropertiesObject.MasterVolume))
+        root.Add(New XElement("beats", NumberOfBeats))
+        root.Add(New XElement("notes", NotesPerBeat))
+        root.Add(New XElement("presetindex", ControlPropertiesObject.presetIndex))
+
+        Dim elementTrackCollection As New XElement("trackcollection")
+
+        For Each track As Track In TrackCollection
+            Dim elementTrack As New XElement("track")
+            elementTrack.Add(New XElement("volume", track.volume))
+            elementTrack.Add(New XElement("sampleindex", track.sampleIndex))
+
+            Dim elementBeats As New XElement("beats")
+            For Each beat As Beat In track.beats
+                Dim elementBeat As New XElement("beat")
+                For Each Note As Note In beat.notes
+                    elementBeat.Add(New XElement("notechecked", Note.Checked))
+                Next
+                elementBeats.Add(elementBeat)
+            Next
+            elementTrack.Add(elementBeats)
+            elementTrackCollection.Add(elementTrack)
+        Next
+        root.Add(elementTrackCollection)
+
+        Return root
+    End Function
 End Class
