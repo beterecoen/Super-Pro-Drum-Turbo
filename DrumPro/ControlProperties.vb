@@ -54,6 +54,7 @@ Public Class ControlProperties
         Set(value As Integer)
             RaiseEvent onPresetChanged(localPresetCollection.Item(value))
             _presetIndex = value
+            NotifyPropertyChanged("presetIndex")
         End Set
         Get
             Return _presetIndex
