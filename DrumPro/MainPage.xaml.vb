@@ -55,7 +55,6 @@ Partial Public Class MainPage
             track.volume = 0.3
             track.sampleOptions = ControlPropertiesObject.currentSampleCollection.samples
             track.sampleIndex = trackIndex + 1
-
             For beatIndex As Integer = 0 To NumberOfBeats - 1
                 Dim beat As New Beat
                 For noteIndex As Integer = 0 To NotesPerBeat - 1
@@ -64,10 +63,8 @@ Partial Public Class MainPage
                 Next
                 track.beats.Add(beat, CStr(beatIndex))
             Next
-
             TrackCollection.Add(track)
         Next
-
         TrackTilesPanel.DataContext = TrackCollection
         TrackControlsPanel.DataContext = TrackCollection
     End Sub
@@ -166,25 +163,26 @@ Partial Public Class MainPage
         ControlPropertiesObject.BPM = root.Element("bpm").Value
         ControlPropertiesObject.presetIndex = root.Element("presetindex").Value
 
-        'Dim elementTrackCollection As New XElement("trackcollection")
+        TrackCollection.Clear()
 
-        'For Each track As Track In TrackCollection
-        '    Dim elementTrack As New XElement("track")
-        '    elementTrack.Add(New XElement("volume", track.volume))
-        '    elementTrack.Add(New XElement("sampleindex", track.sampleIndex))
+        Dim elementTrackCollection = root.Element("trackcollection")
+        For Each elementTrack As XElement In elementTrackCollection.Elements
+            Dim track As New Track
+            track.volume = elementTrack.Element("volume")
+            track.sampleOptions = ControlPropertiesObject.currentSampleCollection.samples
+            track.sampleIndex = elementTrack.Element("sampleindex")
 
-        '    Dim elementBeats As New XElement("beats")
-        '    For Each beat As Beat In track.beats
-        '        Dim elementBeat As New XElement("beat")
-        '        For Each Note As Note In beat.notes
-        '            elementBeat.Add(New XElement("notechecked", Note.Checked))
-        '        Next
-        '        elementBeats.Add(elementBeat)
-        '    Next
-        '    elementTrack.Add(elementBeats)
-        '    elementTrackCollection.Add(elementTrack)
-        'Next
-        'root.Add(elementTrackCollection)
+            For Each elementBeat As XElement In elementTrack.Element("beats").Elements
+                Dim beat As New Beat
+                For Each elementNote As XElement In elementBeat.Elements
+                    Dim note As New Note
+                    note.Checked = elementNote.Value
+                    beat.notes.Add(note)
+                Next
+                track.beats.Add(beat)
+            Next
+            TrackCollection.Add(track)
+        Next
     End Sub
 
     Private Sub SaveDrum_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles SaveDrum.Click
