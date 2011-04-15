@@ -50,6 +50,7 @@ Partial Public Class MainPage
     Sub UpdateSampleCollection(ByVal SampleCollection As SampleColletion)
         For Each track As Track In TrackCollection
             track.sampleOptions = SampleCollection.samples
+            track.sampleIndex = track.sampleIndex
         Next
     End Sub
 
@@ -167,38 +168,43 @@ Partial Public Class MainPage
     End Sub
 
     Private Sub ReadXML(ByRef xmldocument As String)
-        Dim XML As XDocument = XDocument.Parse(xmldocument)
-        Dim root = XML.Element("root")
-        ControlPropertiesObject.BPM = root.Element("bpm").Value
-        ControlPropertiesObject.presetIndex = root.Element("presetindex").Value
-        ControlPropertiesObject.NumberOfBeats = root.Element("beats")
-        ControlPropertiesObject.NotesPerBeat = root.Element("notes")
-        currentNumberOfBeats = root.Element("beats")
-        currentNotesPerBeat = root.Element("notes")
+        Try
+            Dim XML As XDocument = XDocument.Parse(xmldocument)
+            Dim root = Xml.Element("root")
+            ControlPropertiesObject.BPM = root.Element("bpm").Value
+            ControlPropertiesObject.presetIndex = root.Element("presetindex").Value
+            ControlPropertiesObject.NumberOfBeats = root.Element("beats")
+            ControlPropertiesObject.NotesPerBeat = root.Element("notes")
+            currentNumberOfBeats = root.Element("beats")
+            currentNotesPerBeat = root.Element("notes")
 
-        TrackCollection.Clear()
+            TrackCollection.Clear()
 
-        Dim elementTrackCollection = root.Element("trackcollection")
-        For Each elementTrack As XElement In elementTrackCollection.Elements
-            Dim track As New Track
-            track.volume = elementTrack.Element("volume")
-            track.sampleOptions = ControlPropertiesObject.currentSampleCollection.samples
-            track.sampleIndex = elementTrack.Element("sampleindex")
+            Dim elementTrackCollection = root.Element("trackcollection")
+            For Each elementTrack As XElement In elementTrackCollection.Elements
+                Dim track As New Track
+                track.volume = elementTrack.Element("volume")
+                track.sampleOptions = ControlPropertiesObject.currentSampleCollection.samples
+                track.sampleIndex = elementTrack.Element("sampleindex")
 
-            For Each elementBeat As XElement In elementTrack.Element("beats").Elements
-                Dim beat As New Beat
-                For Each elementNote As XElement In elementBeat.Elements
-                    Dim note As New Note
-                    note.Checked = elementNote.Value
-                    beat.notes.Add(note)
+                For Each elementBeat As XElement In elementTrack.Element("beats").Elements
+                    Dim beat As New Beat
+                    For Each elementNote As XElement In elementBeat.Elements
+                        Dim note As New Note
+                        note.Checked = elementNote.Value
+                        beat.notes.Add(note)
+                    Next
+                    track.beats.Add(beat)
                 Next
-                track.beats.Add(beat)
+                TrackCollection.Add(track)
             Next
-            TrackCollection.Add(track)
-        Next
+        Catch ex As Exception
+            MessageBox.Show("File Could Not Be Read")
+        End Try
     End Sub
 
     Private Sub SaveDrum_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles SaveDrum.Click
+        AudioTimer.Stop()
         Dim saveFileDialog As New SaveFileDialog()
 
         saveFileDialog.DefaultExt = "xml"
